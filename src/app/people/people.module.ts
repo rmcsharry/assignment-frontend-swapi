@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PeopleListComponent } from './people-list/people-list.component';
 import { PeopleRoutingModule } from './people-routing.module';
 import { CustomMaterialModule } from '../custom-material/custom-material.module';
-
+import { NgxTypedJsModule } from 'ngx-typed-js';
 @NgModule({
   declarations: [
     PeopleListComponent
@@ -11,7 +11,8 @@ import { CustomMaterialModule } from '../custom-material/custom-material.module'
   imports: [
     CommonModule,
     PeopleRoutingModule,
-    CustomMaterialModule
+    CustomMaterialModule,
+    NgxTypedJsModule
   ]
 })
 export class PeopleModule { }

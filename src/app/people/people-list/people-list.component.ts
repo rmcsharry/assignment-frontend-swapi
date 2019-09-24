@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,9 +9,12 @@ import { Observable } from 'rxjs';
 export class PeopleListComponent implements OnInit {
   people$: Observable<any[]>;
 
-  constructor() { }
+  constructor(
+    private _renderer: Renderer2
+  ) { }
 
   ngOnInit() {
+
   }
 
 }

@@ -9,7 +9,9 @@
   </mat-nav-list>
   <ng-template #loading>
     <div class="loading">
-      Please wait. Loading data from a Galaxy Far Far Away...
+      <ngx-typed-js #typed [startDelay]="200" [typeSpeed]="50" [fadeOut]="true" [loop]="true" [strings]="['Loading data...', 'From a Galaxy far far away...']">
+        <h2 class="typing"></h2>
+      </ngx-typed-js>
       <br><br>
       <mat-spinner></mat-spinner>
     </div>

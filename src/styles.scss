@@ -1,10 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+
+@font-face {
+  font-family: starjedi;
+  src: url(assets/fonts/Starjedi.ttf) format("truetype");
+}
 
 body {
-  color: black;
-  background: #c3c2b5;
+  color: #FFE81F;
+  background: black;
+  font-family: "starjedi", "Starjedi";
+}
+.intro {
+  overflow: hidden;
 }
 .loading {
   display: flex;
@@ -31,4 +40,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: left;
+}
+.strike {
+  text-decoration: line-through
 }
