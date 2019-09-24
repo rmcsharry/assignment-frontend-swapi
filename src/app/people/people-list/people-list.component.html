@@ -2,11 +2,15 @@
 </section>
 <section class="list-items-container">
   <mat-nav-list *ngIf="people$ | async as people; else loading">
-    <a mat-list-item *ngFor="let person of peoople; let odd=odd;" [style.border-color]="odd? 'white':'transparent'"
-      [routerLink]="['/person', person.id]">
-      {{person.id}} - {{person.name}}
+    <a mat-list-item *ngFor="let person of people.results; let odd=odd; let i = index;" [style.border-color]="odd? 'white':'transparent'">
+      <!-- [routerLink]="['/person', person.id]"> -->
+      {{i+1}} - {{person.name}}
     </a>
   </mat-nav-list>
+
+
+
+
   <ng-template #loading>
     <div class="loading">
       <ngx-typed-js #typed [startDelay]="200" [typeSpeed]="25" [fadeOut]="true" [loop]="true" [strings]="['Loading data...', 'From a Galaxy far far away...']">
