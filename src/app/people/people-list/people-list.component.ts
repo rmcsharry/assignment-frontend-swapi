@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PeopleService } from '../../services/people.service';
 import { People } from '../people.model';

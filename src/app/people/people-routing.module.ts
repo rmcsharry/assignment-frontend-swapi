@@ -5,7 +5,7 @@ import { PeopleComponent } from './people/people.component';
 import { PeopleTableComponent } from './people-table/people-table.component';
 
 const routes: Routes = [
-  { path: '', component: PeopleListComponent },
+  { path: '', component: PeopleTableComponent },
 ];
 
 @NgModule({
