@@ -29,7 +29,7 @@ export class IntroComponent implements OnInit {
   goNext() {
     this.renderer.removeClass(document.body, 'intro');
     this.audioPlayerRef.nativeElement.pause();
-    this.router.navigate(['people']);
+    this.router.navigate(['characters']);
   }
 
 }

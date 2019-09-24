@@ -2,8 +2,8 @@
 </section>
 <section class="list-items-container">
   <mat-nav-list *ngIf="people$ | async as people">
-    <a mat-list-item *ngFor="let person of people.results; let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'">
-      <!-- [routerLink]="['/person', person.id]"> -->
+    <a mat-list-item *ngFor="let person of people.results; let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
+      [routerLink]="['/characters', i]">
       {{i+1}} - {{person.name}}
     </a>
   </mat-nav-list>

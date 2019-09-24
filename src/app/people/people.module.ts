@@ -6,11 +6,13 @@ import { CustomMaterialModule } from '../custom-material/custom-material.module'
 import { PeopleTableComponent } from './people-table/people-table.component';
 import { PeopleComponent } from './people/people.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PersonComponent } from './person/person.component';
 @NgModule({
   declarations: [
     PeopleListComponent,
     PeopleTableComponent,
-    PeopleComponent
+    PeopleComponent,
+    PersonComponent
   ],
   imports: [
     CommonModule,
