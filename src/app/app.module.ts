@@ -9,6 +9,10 @@ import { CustomMaterialModule } from './custom-material/custom-material.module';
 import { StoreModule } from '@ngrx/store';
 import { IntroComponent } from './intro/intro.component';
 import { HomeComponent } from './home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,9 +26,14 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     ReactiveFormsModule,
     CustomMaterialModule,
-    StoreModule.forRoot({ app: null })
+    StoreModule.forRoot({ app: null }),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
