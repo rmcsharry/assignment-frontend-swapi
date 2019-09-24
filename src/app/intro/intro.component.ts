@@ -16,15 +16,15 @@ export class IntroComponent implements OnInit {
 
   ngOnInit() {
     this.audioPlayerRef.nativeElement.play();
-    setTimeout(() => this.goNext(), 1000 * 98);
+    setTimeout(() => this.goNext(), 1000 * 95.5);
   }
 
   onSkip(event: Event) {
-    this._renderer.removeClass(document.body, 'intro');
     this.goNext();
   }
 
   goNext() {
+    this._renderer.removeClass(document.body, 'intro');
     this.audioPlayerRef.nativeElement.pause();
     this.router.navigate(['people']);
   }
