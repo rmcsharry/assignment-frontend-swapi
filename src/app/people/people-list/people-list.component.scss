@@ -2,6 +2,7 @@ mat-nav-list {
   width: 100%;
   background: hsla(20, 20%, 40%, 0.5);
   padding: 40px;
+  border: solid 1px darkgoldenrod;
 }
 mat-nav-list > a {
   border-top: solid 1px transparent;

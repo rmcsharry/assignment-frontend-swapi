@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {PageService} from '../services/page.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'sw-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private pageService: PageService
   ) {}
 
-  ngOnInit(){
+  ngOnInit() {
+    this.pageService.setPageTitle('RocketLoop Star Wars Assignment');
   }
 
   onStart(event: Event) {

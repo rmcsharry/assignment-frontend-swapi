@@ -2,23 +2,24 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CustomMaterialModule } from './custom-material/custom-material.module';
 import { StoreModule } from '@ngrx/store';
-import { IntroComponent } from './intro/intro.component';
-import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpErrorInterceptor } from './http-error.interceptor';
+import { CustomMaterialModule } from './custom-material/custom-material.module';
+import { AppRoutingModule } from './app-routing.module';
+import { httpInterceptorProviders } from './interceptors';
+
+import { AppComponent } from './app.component';
+import { IntroComponent } from './intro/intro.component';
+import { HomeComponent } from './home/home.component';
+import { PageTitleComponent } from './page-title/page-title.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IntroComponent,
-    HomeComponent
+    HomeComponent,
+    PageTitleComponent
   ],
   imports: [
     BrowserModule,
@@ -29,11 +30,7 @@ import { HttpErrorInterceptor } from './http-error.interceptor';
     StoreModule.forRoot({ app: null }),
     HttpClientModule
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
-    multi: true,
-  }],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
