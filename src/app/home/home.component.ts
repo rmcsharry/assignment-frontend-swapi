@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pageService.setPageTitle('RocketLoop Star Wars Assignment');
+    this.pageService.setPageTitle('RocketLoop Assignment');
   }
 
   onStart(event: Event) {

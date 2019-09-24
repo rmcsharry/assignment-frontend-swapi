@@ -36,7 +36,6 @@ export class PeopleTableComponent implements OnInit {
       this.dataSource.data = data['results']
       console.log(this.dataSource.data)
     });
-    this.people$ = this.peopleService.getPeople();
     this.dataSource.filterPredicate = this.createFilter();
     this.setupFilters();
   }

@@ -21,10 +21,6 @@ export class PeopleListComponent implements OnInit {
   ngOnInit() {
     this.pageService.setPageTitle('Character List');
     this.people$ = this.peopleService.getPeople();
-    // deliberate delay to ensure loading animation is seen at least once! Got to flaunt it ;)
-    // setTimeout(() => {
-    //   this.people$ = this.peopleService.getPeople();
-    // }, 2500);
   }
 
 }
