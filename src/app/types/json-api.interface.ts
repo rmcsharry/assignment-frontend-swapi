@@ -3,5 +3,4 @@ export interface JsonApi<T> {
   count: number
   next: string
   previious: string
-
 }

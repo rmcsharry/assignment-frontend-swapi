@@ -7,19 +7,21 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { finalize, delay } from "rxjs/operators";
-import { LoaderService } from "../services/loader.service";
+import { Store } from '@ngrx/store';
+import * as fromApp from '../app.reducer'
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector) {}
+  constructor(
+    private store: Store<{ app: fromApp.State }>,
+  ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const loaderService = this.injector.get(LoaderService);
-    loaderService.show();
+    this.store.dispatch({type: 'START_LOADING'})
 
     // deliberate delay to ensure loading animation is seen at least once! Got to flaunt that Star Wars humour ;)
     return next.handle(request).pipe(
       delay(3500),
-      finalize(() => loaderService.hide())
+      finalize(() => this.store.dispatch({type: 'STOP_LOADING'}))
     );
   }
 }

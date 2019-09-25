@@ -14,6 +14,7 @@ import { IntroComponent } from './intro/intro.component';
 import { HomeComponent } from './home/home.component';
 import { PageTitleComponent } from './page-title/page-title.component';
 import { LoaderComponent } from './loader/loader.component';
+import { appReducer } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { LoaderComponent } from './loader/loader.component';
     AppRoutingModule,
     ReactiveFormsModule,
     CustomMaterialModule,
-    StoreModule.forRoot({ app: null }),
+    StoreModule.forRoot({ app: appReducer }),
     HttpClientModule,
     NgxTypedJsModule
   ],
