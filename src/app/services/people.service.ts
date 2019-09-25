@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { People } from '../people/people.model';
+import { Person } from '../people/person.model';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JsonApi } from '../types/json-api.interface';
@@ -14,9 +14,9 @@ export class PeopleService {
     private http: HttpClient,
   ) { }
 
-  getPeople(): Observable<JsonApi<People[]>> {
+  getPeople(): Observable<JsonApi<Person[]>> {
     return this.http.get('people').pipe(
-      map((response: JsonApi<People[]>) => response)
+      map((response: JsonApi<Person[]>) => response)
     )
   }
 

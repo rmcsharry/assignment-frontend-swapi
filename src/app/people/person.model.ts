@@ -7,7 +7,7 @@
 /**
  * A person within the Star Wars universe
  */
-export interface People {
+export interface Person {
   /**
    * The birth year of this person. BBY (Before the Battle of Yavin) or ABY (After the Battle
    * of Yavin).

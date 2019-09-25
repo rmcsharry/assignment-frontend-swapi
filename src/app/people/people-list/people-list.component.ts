@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PeopleService } from '../../services/people.service';
-import { People } from '../people.model';
+import { Person } from '../person.model';
 import { JsonApi } from 'src/app/types/json-api.interface';
 import { PageService } from 'src/app/services/page.service';
 
@@ -11,7 +11,7 @@ import { PageService } from 'src/app/services/page.service';
   styleUrls: ['./people-list.component.scss']
 })
 export class PeopleListComponent implements OnInit {
-  @Input() people$: Observable<JsonApi<People[]>>;
+  @Input() people$: Observable<JsonApi<Person[]>>;
 
   constructor(
     private pageService: PageService,

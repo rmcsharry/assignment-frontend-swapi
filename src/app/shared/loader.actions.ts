@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store'
 
-export const START_LOADER = '[UILoader] START_LOADER'
-export const STOP_LOADER = '[UILoader] STOP_LOADER'
+export const START_LOADER = '[Loader] START_LOADER'
+export const STOP_LOADER = '[Loader] STOP_LOADER'
 
 export class StartLoader implements Action {
   readonly type = START_LOADER;

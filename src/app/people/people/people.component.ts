@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PeopleService} from '../../services/people.service';
 import {Observable} from 'rxjs';
-import {People} from '../people.model';
+import {Person} from '../person.model';
 import {JsonApi} from 'src/app/types/json-api.interface';
 
 @Component({

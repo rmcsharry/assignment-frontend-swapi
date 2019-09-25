@@ -2,7 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {PeopleService} from '../../services/people.service';
 import {PageService} from 'src/app/services/page.service';
 import {Observable} from 'rxjs';
-import {People} from '../people.model';
+import {Person} from '../person.model';
 import {JsonApi} from 'src/app/types/json-api.interface';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,7 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./people-table.component.scss']
 })
 export class PeopleTableComponent implements OnInit {
-  @Input() people$: Observable<JsonApi<People[]>>;
+  @Input() people$: Observable<JsonApi<Person[]>>;
 
   nameFilter = new FormControl('');
   filmFilter = new FormControl('');
