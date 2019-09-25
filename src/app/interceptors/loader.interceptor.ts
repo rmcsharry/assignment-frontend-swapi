@@ -9,6 +9,7 @@ import { Observable } from "rxjs";
 import { finalize, delay } from "rxjs/operators";
 import { Store } from '@ngrx/store';
 import * as fromApp from '../app.reducer'
+import * as Loader from '../shared/loader.actions';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
@@ -16,12 +17,12 @@ export class LoaderInterceptor implements HttpInterceptor {
     private store: Store<{ app: fromApp.State }>,
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.store.dispatch({type: 'START_LOADING'})
+    this.store.dispatch(new Loader.StartLoader())
 
     // deliberate delay to ensure loading animation is seen at least once! Got to flaunt that Star Wars humour ;)
     return next.handle(request).pipe(
       delay(3500),
-      finalize(() => this.store.dispatch({type: 'STOP_LOADING'}))
+      finalize(() => this.store.dispatch(new Loader.StopLoader()))
     );
   }
 }
