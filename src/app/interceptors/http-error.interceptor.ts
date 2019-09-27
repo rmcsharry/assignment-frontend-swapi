@@ -20,7 +20,18 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         }
 
         // return a default fallback value so app can continue (pick one)
-        return of(new HttpResponse({body: [{name: "Default value..."}]}));
+        return of(new HttpResponse(
+          {
+            body:
+              {
+                results: [
+                  { name: "Unknown.." }
+                ],
+                next: null,
+                previous: null,
+                count: 0
+              }
+          }));
       }));
   }
 }

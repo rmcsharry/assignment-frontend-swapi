@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { PeopleActions, LOAD_PEOPLE_SUCCESS } from '../actions/people.actions';
+import { PeopleActions, LOAD_PEOPLE_SUCCESS, SET_PEOPLE_PAGE_NUMBER } from '../actions/people.actions';
 import { Person } from '../models/person.model';
 import * as fromRoot from '../../app.reducer';
 import { JsonApi } from '../../types/json-api.interface';
@@ -35,6 +35,12 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         count: action.payload.count,
         next: action.payload.next,
         previous: action.payload.previous,
+        page: action.page
+      }
+    case SET_PEOPLE_PAGE_NUMBER:
+      console.log('ACTION people ', state.results, action.page);
+      return {
+        ...state,
         page: action.page
       }
     default:

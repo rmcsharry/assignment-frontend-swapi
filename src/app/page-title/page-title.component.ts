@@ -7,7 +7,7 @@ import { PageService } from '../services/page.service';
   styleUrls: ['./page-title.component.scss']
 })
 export class PageTitleComponent implements OnInit {
-  pageTitle: string = 'You forgot the page title dummy!';
+  pageTitle: string = '';
 
   constructor(
     private pageService: PageService

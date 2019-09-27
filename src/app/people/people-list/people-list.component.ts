@@ -18,33 +18,37 @@ import {map} from 'rxjs/operators';
 export class PeopleListComponent implements OnInit {
   // people$: Observable<JsonApi<Person[]>>;
   people$: Observable<fromPeople.PeopleState>;
+  page: number;
 
   constructor(
     private pageService: PageService,
     private peopleService: PeopleService,
     private store: Store<fromPeople.State>,
     private router: Router
-  ) { }
+  ) {
+    this.store.pipe(select(state => state.people.page)).subscribe(
+      (page: number) => this.page = page
+    );
+  }
 
   ngOnInit() {
     this.pageService.setPageTitle('Character List');
-    // this.store.dispatch({ type: '[People Page] Load People', page: 1 })
-
-
-    this.store.dispatch(new People.LoadPeoplePaged(1))
-    // this.people$ = this.peopleService.getPeople();
+    this.store.dispatch(new People.LoadPeoplePaged(this.page))
     this.people$ = this.store.pipe(select(state => state.people));
+  }
 
-    // this.people$ = this.store.pipe(map(state => {
-    //   console.log('WTF', state)
+  onNextPage(data) {
+    console.log('data',data)
+    this.store.dispatch(new People.LoadPeoplePaged(this.page + 1))
+  }
 
-    //     console.log('PEOPLE-LIST - state received is', state);
-    //     return state['people']
-    // }));
+  onPrevPage(data) {
+    console.log('data',data)
+    this.store.dispatch(new People.LoadPeoplePaged(this.page - 1))
   }
 
   onSelectPerson(index: number) {
-    // this.store.dispatch(new People.SelectPerson(index));
+    this.store.dispatch(new People.SelectPerson(index));
     this.router.navigate(['characters', index + 1])
   }
 }

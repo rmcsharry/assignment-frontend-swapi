@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "~@angular/material/prebuilt-themes/purple-green.css";
+// @import "~@angular/material/prebuilt-themes/purple-green.css";
+@import './media-queries.scss';
 
 @font-face {
   font-family: starjedi;
@@ -21,8 +22,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 480px;
-  padding: 20px 0;
+  padding: 30px 0;
 }
 .list-items-container {
   display: flex;
@@ -34,6 +34,10 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: left;
+}
+.list-footer {
+  display: flex;
+  justify-content: center;
 }
 .strike {
   text-decoration: line-through

@@ -18,15 +18,7 @@ export class LoaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.loader$ = this.store.select(fromRoot.getIsLoading);
-
-    this.loader$ = this.store.pipe(map(state => {
-      console.log('LOADER - state received is', state);
-      if (state.loader)
-        return state.loader.isLoading
-      else
-        return false; // a hack TODO: why is this necessary when app.reducer has initialState defined?
-    }));
+    this.loader$ = this.store.select(fromRoot.getIsLoading);
   }
 
 }

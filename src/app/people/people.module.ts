@@ -14,6 +14,7 @@ import { PersonComponent } from './person/person.component';
 import { peopleReducer } from './reducers/people.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PeopleEffects } from './effects/people.effects';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PeopleEffects } from './effects/people.effects';
     CommonModule,
     PeopleRoutingModule,
     CustomMaterialModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
     StoreModule.forFeature('people', peopleReducer),
     EffectsModule.forFeature([PeopleEffects])

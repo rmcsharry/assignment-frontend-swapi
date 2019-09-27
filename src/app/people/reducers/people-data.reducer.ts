@@ -11,6 +11,7 @@ import {peopleReducer} from './people.reducer';
 export interface PeopleDataState {
   // peoplePaged: JsonApi<Person[]>
   people: fromPeople.PeopleState
+  page: number
   selectedPerson: Person
 }
 export interface State extends fromRoot.State {
@@ -18,6 +19,7 @@ export interface State extends fromRoot.State {
 }
 const initialState: PeopleDataState = {
   people: null,
+  page: 1,
   selectedPerson: null
 }
 
