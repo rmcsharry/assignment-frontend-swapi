@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { PeopleActions, SELECT_PERSON, UNSELECT_PERSON } from '../actions/people.actions';
+import { PeopleActions, SELECT_PERSON, UNSELECT_PERSON } from '../actions/person.actions';
 import { Person } from '../models/person.model';
 import * as fromRoot from '../../app.reducer';
 
@@ -35,6 +35,6 @@ export function selectedPersonReducer(state = initialState, action: PeopleAction
 }
 // export const peopleFeatureKey = 'peoplee';
 
-export const getPersonState = createFeatureSelector<PersonState>('person');
+export const getPersonState = createFeatureSelector<State>('person');
 
-export const getSelectedPerson = createSelector(getPersonState, (state: PersonState) => state.selectedPerson);
+export const getSelectedPerson = createSelector(getPersonState, (state: State) => state.person.selectedPerson);

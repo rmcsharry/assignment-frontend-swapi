@@ -5,7 +5,7 @@ import * as fromRoot from '../../app.reducer';
 import { Observable } from 'rxjs';
 import { Person } from '../models/person.model';
 import { ActivatedRoute } from '@angular/router';
-import * as People from '../actions/people.actions';
+import * as PersonActions from '../actions/person.actions';
 
 @Component({
   selector: 'sw-person',
@@ -25,7 +25,7 @@ export class PersonComponent implements OnInit {
     this.route.params.subscribe(data => {
       let index = +data['id'];
       this.pageService.setPageTitle(`Character ${index}`);
-      this.store.dispatch(new People.SelectPerson(index - 1));
+      this.store.dispatch(new PersonActions.SelectPerson(index - 1));
       // this.ticket$ = this.backendService.ticket(+data['id'])
       //   .pipe(
       //     tap(t => this.assignee$ = this.getUser(t.assigneeId))

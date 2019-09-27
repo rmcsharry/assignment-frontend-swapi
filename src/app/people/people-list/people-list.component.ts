@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PeopleService } from '../services/people.service';
-import { Person } from '../models/person.model';
-import { JsonApi } from 'src/app/types/json-api.interface';
-import { PageService } from 'src/app/services/page.service';
-import * as People from '../actions/people.actions';
-import * as fromPeople from '../reducers/people.reducer';
 import { Store, select } from '@ngrx/store';
 import { Router } from '@angular/router';
-import {map} from 'rxjs/operators';
+
+import { PageService } from 'src/app/services/page.service';
+import { PeopleService } from '../services/people.service';
+import * as PersonActions from '../actions/person.actions';
+import * as PeopleActions from '../actions/people.actions';
+import * as fromPeople from '../reducers/people.reducer';
 
 @Component({
   selector: 'sw-people-list',
@@ -16,7 +15,6 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./people-list.component.scss']
 })
 export class PeopleListComponent implements OnInit {
-  // people$: Observable<JsonApi<Person[]>>;
   people$: Observable<fromPeople.PeopleState>;
   page: number;
 
@@ -33,20 +31,20 @@ export class PeopleListComponent implements OnInit {
       (page: number) => this.page = page
     );
     this.pageService.setPageTitle('Character List');
-    this.store.dispatch(new People.LoadPeoplePaged(this.page))
+    this.store.dispatch(new PeopleActions.LoadPeoplePaged(this.page))
     this.people$ = this.store.pipe(select(state => state.people));
   }
 
   onNextPage(data) {
-    this.store.dispatch(new People.LoadPeoplePaged(this.page + 1))
+    this.store.dispatch(new PeopleActions.LoadPeoplePaged(this.page + 1))
   }
 
   onPrevPage() {
-    this.store.dispatch(new People.LoadPeoplePaged(this.page - 1))
+    this.store.dispatch(new PeopleActions.LoadPeoplePaged(this.page - 1))
   }
 
   onSelectPerson(index: number) {
-    this.store.dispatch(new People.SelectPerson(index));
+    this.store.dispatch(new PersonActions.SelectPerson(index));
     this.router.navigate(['characters', index + 1])
   }
 }

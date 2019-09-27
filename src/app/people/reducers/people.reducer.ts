@@ -45,8 +45,3 @@ export const getPeopleState = createFeatureSelector<State>('people');
 
 export const getPeople = createSelector(getPeopleState, (state: State) => state.people);
 export const getPeoplePageNumber = createSelector(getPeopleState, (state: State) => state.people.page);
-
-
-
-
-

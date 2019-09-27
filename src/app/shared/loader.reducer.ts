@@ -4,7 +4,7 @@ export interface State  {
   isLoading: boolean;
 }
 const initialState: State = {
-  isLoading: true
+  isLoading: false
 }
 
 export function loaderReducer(state: State = initialState, action: LoaderActions) {

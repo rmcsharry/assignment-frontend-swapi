@@ -14,6 +14,5 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    // this.store.dispatch(new Loader.StartLoader);
   }
 }
