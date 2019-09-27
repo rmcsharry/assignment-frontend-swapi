@@ -1,11 +1,13 @@
+.list-items-container {
+  min-height: 666px;
+  padding: 20px 40px 0px;
+}
 mat-nav-list {
   width: 100%;
-  height: 620px;
-  background: hsla(20, 20%, 40%, 0.5);
-  padding: 20px 40px 0px;
-  border: solid 1px darkgoldenrod;
-}
-mat-nav-list > a {
-  border-top: solid 1px transparent;
-  border-bottom: solid 1px transparent;
+  height: 100%;
+  > a {
+    width: 100%;
+    border-top: solid 1px transparent;
+    border-bottom: solid 1px transparent;
+  }
 }

@@ -5,6 +5,9 @@
   .app-container {
     align-items: inherit;
   }
+  .character-card {
+    max-width: 300px;
+  }
 }
 
 @media screen and (min-width: 360px) and (max-width: 800px) {
@@ -13,6 +16,9 @@
   }
   .app-container {
     align-items: inherit;
+  }
+  .character-card {
+    max-width: 320px;
   }
 }
 

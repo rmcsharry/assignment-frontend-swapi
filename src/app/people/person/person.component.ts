@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PageService } from 'src/app/services/page.service';
-import { Store } from '@ngrx/store';
+import {Store, select} from '@ngrx/store';
 import * as fromRoot from '../../app.reducer';
 import { Observable } from 'rxjs';
 import { Person } from '../models/person.model';
 import { ActivatedRoute } from '@angular/router';
-import * as PersonActions from '../actions/person.actions';
+import * as PeopleActions from '../actions/people.actions';
+import * as fromPeople from '../reducers/people.reducer';
 
 @Component({
   selector: 'sw-person',
@@ -18,20 +19,16 @@ export class PersonComponent implements OnInit {
   constructor(
     private pageService: PageService,
     private route: ActivatedRoute,
-    private store: Store<fromRoot.State>
+    private store: Store<fromPeople.State>
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe(data => {
       let index = +data['id'];
       this.pageService.setPageTitle(`Character ${index}`);
-      this.store.dispatch(new PersonActions.SelectPerson(index - 1));
-      // this.ticket$ = this.backendService.ticket(+data['id'])
-      //   .pipe(
-      //     tap(t => this.assignee$ = this.getUser(t.assigneeId))
-      //   )
+      this.store.dispatch(new PeopleActions.SetSelectedPerson(index - 1));
     });
-    // this.person$ = this.store.select(fromPeople.getSelectedPerson);
+    this.person$ = this.store.pipe(select(state => state.people.selectedPerson));
   }
 
 }

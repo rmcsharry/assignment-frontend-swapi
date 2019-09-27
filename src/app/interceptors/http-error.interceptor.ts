@@ -25,7 +25,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             body:
               {
                 results: [
-                  { name: "Unknown.." }
+                  { name: "Not The Data You Were Looking For.." }
                 ],
                 next: null,
                 previous: null,

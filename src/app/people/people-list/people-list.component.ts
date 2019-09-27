@@ -4,8 +4,6 @@ import { Store, select } from '@ngrx/store';
 import { Router } from '@angular/router';
 
 import { PageService } from 'src/app/services/page.service';
-import { PeopleService } from '../services/people.service';
-import * as PersonActions from '../actions/person.actions';
 import * as PeopleActions from '../actions/people.actions';
 import * as fromPeople from '../reducers/people.reducer';
 
@@ -20,7 +18,6 @@ export class PeopleListComponent implements OnInit {
 
   constructor(
     private pageService: PageService,
-    private peopleService: PeopleService,
     private store: Store<fromPeople.State>,
     private router: Router
   ) {
@@ -35,7 +32,7 @@ export class PeopleListComponent implements OnInit {
     this.people$ = this.store.pipe(select(state => state.people));
   }
 
-  onNextPage(data) {
+  onNextPage() {
     this.store.dispatch(new PeopleActions.LoadPeoplePaged(this.page + 1))
   }
 
@@ -44,7 +41,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   onSelectPerson(index: number) {
-    this.store.dispatch(new PersonActions.SelectPerson(index));
+    this.store.dispatch(new PeopleActions.SetSelectedPerson(index));
     this.router.navigate(['characters', index + 1])
   }
 }

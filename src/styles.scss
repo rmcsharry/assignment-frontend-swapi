@@ -17,17 +17,23 @@ body {
 .intro {
   overflow: hidden;
 }
-.list-controls {
+.page-controls {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 30px 0;
 }
-.list-items-container {
+.list-controls {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+.list-items-container {
+  border: solid 1px darkgoldenrod;
+  background: hsla(20, 20%, 40%, 0.5);
 }
 .list-item {
   display: flex;
@@ -36,11 +42,14 @@ body {
   align-items: left;
 }
 .list-footer {
-  display: flex;
-  justify-content: center;
+  padding-top: 20px;
 }
 .strike {
   text-decoration: line-through
+}
+.mat-card {
+  border: solid 1px darkgoldenrod;
+  background: hsla(20, 20%, 40%, 0.5);
 }
 // this is a hack, really need to build a star wars mat theme
 .mat-progress-spinner circle, .mat-spinner circle {
