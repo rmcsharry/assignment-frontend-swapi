@@ -23,7 +23,6 @@ export class PeopleService {
   getPeople(page: number = 1): Observable<JsonApi<Person[]>> {
     return this.http.get(`people/?page=${page}`).pipe(
       map((response: JsonApi<Person[]>) => {
-        this.store.dispatch(new People.SetPeoplePageNumber(page))
         return response
       })
     );

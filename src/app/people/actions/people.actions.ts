@@ -9,14 +9,6 @@ export const UNSELECT_PERSON = '[People] UNSELECT_PERSON'
 export const LOAD_PEOPLE_SUCCESS = '[People Paged] LOAD_PEOPLE_SUCCESS'
 export const LOAD_PEOPLE_PAGED = '[People Paged] LOAD_PEOPLE_PAGED'
 
-export const SET_PEOPLE_PAGE_NUMBER = '[People Paged] SET_PEOPLE_PAGE_NUMBER'
-
-export class SetPeoplePageNumber implements Action {
-  readonly type = SET_PEOPLE_PAGE_NUMBER
-
-  constructor(readonly page: number) {}
-}
-
 export class LoadPeoplePaged implements Action {
   readonly type = LOAD_PEOPLE_PAGED;
 
@@ -45,4 +37,4 @@ export class UnselectPerson implements Action {
   readonly type = UNSELECT_PERSON;
 }
 
-export type PeopleActions =  SetPeoplePageNumber | LoadPeoplePaged | LoadPeopleSuccess | SetPeople | SelectPerson | UnselectPerson;
+export type PeopleActions = LoadPeoplePaged | LoadPeopleSuccess | SetPeople | SelectPerson | UnselectPerson;

@@ -14,11 +14,11 @@
 
   <section class="list-controls" fxLayoutGap="10px">
     <button mat-raised-button color="accent" [disabled]="!(people$ | async).previous"
-      matSuffix aria-label="Next page" (click)="onPrevPage(next)">
+      matSuffix aria-label="Next page" (click)="onPrevPage()">
       <mat-icon>arrow_left</mat-icon>Prev
     </button>
     <button mat-raised-button color="accent" [disabled]="!(people$ | async).next"
-      matSuffix aria-label="Next page" (click)="onNextPage(next)">
+      matSuffix aria-label="Next page" (click)="onNextPage()">
       Next<mat-icon>arrow_right</mat-icon>
     </button>
   </section>

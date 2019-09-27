@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
-import { map } from 'rxjs/operators'
-
 
 @Component({
   selector: 'sw-loader',

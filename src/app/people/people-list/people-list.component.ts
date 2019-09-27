@@ -26,24 +26,22 @@ export class PeopleListComponent implements OnInit {
     private store: Store<fromPeople.State>,
     private router: Router
   ) {
-    this.store.pipe(select(state => state.people.page)).subscribe(
-      (page: number) => this.page = page
-    );
   }
 
   ngOnInit() {
+    this.store.pipe(select(state => state.people.page)).subscribe(
+      (page: number) => this.page = page
+    );
     this.pageService.setPageTitle('Character List');
     this.store.dispatch(new People.LoadPeoplePaged(this.page))
     this.people$ = this.store.pipe(select(state => state.people));
   }
 
   onNextPage(data) {
-    console.log('data',data)
     this.store.dispatch(new People.LoadPeoplePaged(this.page + 1))
   }
 
-  onPrevPage(data) {
-    console.log('data',data)
+  onPrevPage() {
     this.store.dispatch(new People.LoadPeoplePaged(this.page - 1))
   }
 
