@@ -2,11 +2,11 @@ import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/s
 import * as fromLoader from './shared/loader.reducer';
 
 export interface State {
-  loader: fromLoader.State;
+  loader: fromLoader.State
 }
 
 export const reducers: ActionReducerMap<State> = {
-  loader: fromLoader.loaderReducer
+  loader: fromLoader.loaderReducer,
 }
 
 export const getLoaderState = createFeatureSelector<fromLoader.State>('loader');

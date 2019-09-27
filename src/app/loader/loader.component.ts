@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import * as fromRoot from '../app.reducer';
 import { map } from 'rxjs/operators'
-import { Store } from '@ngrx/store';
-import * as fromApp from '../app.reducer';
 
 
 @Component({
@@ -11,21 +11,21 @@ import * as fromApp from '../app.reducer';
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent implements OnInit {
-  loading$: Observable<boolean>;
+  loader$: Observable<boolean>;
 
   constructor(
-    private store: Store<fromApp.State>
+    private store: Store<fromRoot.State>
   ) { }
 
   ngOnInit() {
-    this.loading$ = this.store.select(fromApp.getIsLoading); // TODO: why does this not work?
+    // this.loader$ = this.store.select(fromRoot.getIsLoading);
 
-    this.loading$ = this.store.pipe(map(state => {
-      console.log('state received is', state);
+    this.loader$ = this.store.pipe(map(state => {
+      console.log('LOADER - state received is', state);
       if (state.loader)
         return state.loader.isLoading
       else
-        return true; // a hack TODO: why is this necessary when app.reducer has initialState defined?
+        return false; // a hack TODO: why is this necessary when app.reducer has initialState defined?
     }));
   }
 

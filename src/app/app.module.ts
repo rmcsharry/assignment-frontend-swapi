@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { CustomMaterialModule } from './custom-material/custom-material.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { PageTitleComponent } from './page-title/page-title.component';
 import { LoaderComponent } from './loader/loader.component';
 import { reducers } from './app.reducer';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,11 @@ import { reducers } from './app.reducer';
     ReactiveFormsModule,
     CustomMaterialModule,
     StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      name: 'RoocketLoop Star Wars',
+      maxAge: 5
+    }),
     HttpClientModule,
     NgxTypedJsModule
   ],

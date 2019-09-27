@@ -1,10 +1,16 @@
 <section class="list-controls">
 </section>
-<section class="list-items-container">
-  <mat-nav-list *ngIf="people$ | async as people">
-    <a mat-list-item *ngFor="let person of people.results; let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
-      [routerLink]="['/characters', i]">
+
+<section class="list-items-container" *ngIf="(people$ | async).results.length > 0">
+  <mat-nav-list *ngIf="(people$ | async).results as people">
+    <p>{{(people$ | async).count}} total characters</p>
+    <a mat-list-item *ngFor="let person of people; let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
+      (click)="onSelectPerson(i)">
       {{i+1}} - {{person.name}}
     </a>
   </mat-nav-list>
 </section>
+<button mat-button *ngIf="(people$ | async).next as next" matSuffix mat-icon-button aria-label="Clear" (click)="onNextPage(next)">
+  <mat-icon>Next</mat-icon>
+</button>
+<pre>{{(people$ | async) | json}}</pre>

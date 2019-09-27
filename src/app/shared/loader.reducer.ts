@@ -1,25 +1,27 @@
 import { LoaderActions, START_LOADER, STOP_LOADER } from './loader.actions';
 
-export interface State {
+export interface State  {
   isLoading: boolean;
 }
 const initialState: State = {
-  isLoading: false
+  isLoading: true
 }
 
-export function loaderReducer(state = initialState, action: LoaderActions) {
-  console.log('action received:', action)
+export function loaderReducer(state: State = initialState, action: LoaderActions) {
+  console.log('LOADER action received:', action, 'STATE IS:', state)
   switch (action.type) {
     case START_LOADER:
       return {
+        ...state,
         isLoading: true
       };
     case STOP_LOADER:
       return {
+        ...state,
         isLoading: false
       };
     default:
-      state;
+      return state;
   }
 }
 

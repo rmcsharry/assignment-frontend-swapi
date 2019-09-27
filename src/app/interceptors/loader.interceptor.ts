@@ -8,13 +8,13 @@ import {
 import { Observable } from "rxjs";
 import { finalize, delay } from "rxjs/operators";
 import { Store } from '@ngrx/store';
-import * as fromApp from '../app.reducer'
+import * as fromRoot from '../app.reducer'
 import * as Loader from '../shared/loader.actions';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
   constructor(
-    private store: Store<{ app: fromApp.State }>,
+    private store: Store<{ app: fromRoot.State }>,
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.store.dispatch(new Loader.StartLoader())
