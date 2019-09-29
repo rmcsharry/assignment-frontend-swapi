@@ -1,31 +1,24 @@
 <div *ngIf="(people$ | async)?.results?.length > 0">
   <section class="list-controls" fxLayoutGap="10px">
-    <button mat-raised-button color="accent" [disabled]="!(people$ | async).previous"
-      matSuffix aria-label="Next page" (click)="onPrevPage()">
-      <mat-icon>arrow_left</mat-icon>Prev
-    </button>
-    <button mat-raised-button color="accent" [disabled]="!(people$ | async).next"
-      matSuffix aria-label="Next page" (click)="onNextPage()">
-      Next<mat-icon>arrow_right</mat-icon>
-    </button>
+
   </section>
   <section class="list-items-container" fxLayout="column" fxLayoutAlign="space-start center">
     <p fxFlexAlign="start">{{(people$ | async).count}} total characters</p>
     <mat-nav-list *ngIf="(people$ | async).results as people">
       <a mat-list-item *ngFor="let person of people; let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
         (click)="onSelectPerson(i)">
-        {{i+1}} - {{person.name}}
+        {{personNumber(i)}} - {{person.name}}
       </a>
     </mat-nav-list>
-    <p class="list-footer" fxFlexAlign="end">Page {{page}}</p>
+    <p class="list-footer" fxFlexAlign="end">Page {{(people$ | async).page}}</p>
   </section>
 
   <section class="page-controls" fxLayoutGap="10px">
-    <button mat-raised-button color="accent" [disabled]="!(people$ | async).previous"
+    <button mat-raised-button color="accent" [disabled]="page === 1"
       matSuffix aria-label="Next page" (click)="onPrevPage()">
       <mat-icon>arrow_left</mat-icon>Prev
     </button>
-    <button mat-raised-button color="accent" [disabled]="!(people$ | async).next"
+    <button mat-raised-button color="accent" [disabled]="page === numberOfPages"
       matSuffix aria-label="Next page" (click)="onNextPage()">
       Next<mat-icon>arrow_right</mat-icon>
     </button>

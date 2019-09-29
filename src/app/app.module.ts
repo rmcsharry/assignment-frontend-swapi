@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,8 @@ import { PageTitleComponent } from './page-title/page-title.component';
 import { LoaderComponent } from './loader/loader.component';
 import { reducers } from './app.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { initApp } from './init-app';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,14 @@ import { EffectsModule } from '@ngrx/effects';
     AppRoutingModule,
     ReactiveFormsModule,
     CustomMaterialModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+      },
+    }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       name: 'RoocketLoop Star Wars',
@@ -41,7 +50,15 @@ import { EffectsModule } from '@ngrx/effects';
     HttpClientModule,
     NgxTypedJsModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [
+    httpInterceptorProviders,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      multi: true,
+      deps: [HttpClient]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

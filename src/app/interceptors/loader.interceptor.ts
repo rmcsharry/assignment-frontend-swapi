@@ -21,7 +21,7 @@ export class LoaderInterceptor implements HttpInterceptor {
 
     // deliberate delay to ensure loading animation is seen at least once! Got to flaunt that Star Wars humour ;)
     return next.handle(request).pipe(
-      delay(0),
+      delay(3500),
       finalize(() => this.store.dispatch(new Loader.StopLoader()))
     );
   }

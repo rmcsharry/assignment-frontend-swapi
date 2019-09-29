@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PeopleListComponent } from './people-list/people-list.component';
 import { PeopleComponent } from './people/people.component';
+import { PeopleListComponent } from './people-list/people-list.component';
 import { PeopleTableComponent } from './people-table/people-table.component';
 import { PersonComponent } from './person/person.component';
+import { PersonGuard } from './people/guards/person-guard';
 
 const routes: Routes = [
-  { path: ':id', component: PersonComponent },
+  { path: ':id', component: PersonComponent, },
   { path: '', component: PeopleComponent },
 ];
 

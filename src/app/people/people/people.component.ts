@@ -1,8 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import {PeopleService} from '../services/people.service';
-import {Observable} from 'rxjs';
-import {Person} from '../models/person.model';
-import {JsonApi} from 'src/app/types/json-api.interface';
+import { Store } from '@ngrx/store';
+import * as PeopleActions from '../actions/people.actions';
+import * as fromPeople from '../reducers/people.reducer';
 
 @Component({
   selector: 'sw-people',
@@ -10,13 +9,18 @@ import {JsonApi} from 'src/app/types/json-api.interface';
   styleUrls: ['./people.component.scss']
 })
 export class PeopleComponent implements OnInit {
+  numberOfPages = 3;
 
   constructor(
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private store: Store<fromPeople.PeopleState>
   ) { }
 
   ngOnInit() {
     this.renderer.removeClass(document.body, 'intro');
+    for (let i = 1; i <= this.numberOfPages; i++) {
+      this.store.dispatch(new PeopleActions.LoadPeoplePaged({ page: i, numberOfPages: this.numberOfPages }));
+    };
   }
 
 }
