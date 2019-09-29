@@ -79,13 +79,7 @@ function findPerson(state: PeopleState, index: number): Person | null {
 
 export const getPeople= createFeatureSelector<PeopleState>('people')
 export const getPerson = createSelector(getPeople, (state: PeopleState) => state.selectedPerson);
-
-
-export const selectCurrentPerson = createSelector(
-  getPeople,
-  selectRouteId,
-  (people, id) => people.results[+id-1]
-);
+export const selectCurrentPerson = createSelector(getPeople, selectRouteId, (people, id) => people.results[+id-1]);
 
 // export const getPageOfPeople = createSelector(getPeople, (state: PeopleState) => state);
 // export const getPeopleState = createFeatureSelector<State>('people');
