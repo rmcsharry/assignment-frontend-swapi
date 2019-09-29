@@ -54,12 +54,12 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
   ],
   providers: [
     httpInterceptorProviders,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      multi: true,
-      deps: [HttpClient]
-    }
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initApp,
+    //   multi: true,
+    //   deps: [HttpClient]
+    // }
   ],
   bootstrap: [AppComponent]
 })

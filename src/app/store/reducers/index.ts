@@ -33,8 +33,8 @@ const {
   selectUrl,            // select the current url
 } = fromRouter.getSelectors(selectRouter);
 
+export const selectPersonRouteId = selectRouteParam('state.route.firstChild.firstChild.params');
 export const selectRouteId = selectRouteParam('id');
-export const selectStatus = selectQueryParam('status');
 
 // export const selectRouteParameters = createSelector(
 //   selectRouter,

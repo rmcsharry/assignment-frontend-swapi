@@ -40,7 +40,8 @@ export class PeopleListComponent implements OnInit {
           page: state.page,
           next: state.next,
           previous: state.previous,
-          selectedPerson: state.selectedPerson
+          selectedPerson: state.selectedPerson,
+          selectedPersonId: state.selectedPersonId
         }
       }))
   }

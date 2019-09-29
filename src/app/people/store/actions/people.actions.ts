@@ -32,7 +32,7 @@ export class SetPeoplePageNumer implements Action {
 export class LoadPerson implements Action {
   readonly type = LOAD_PERSON;
 
-  constructor(readonly id: number) { }
+  constructor(readonly payload: { id: number } ) { }
 }
 
 export class LoadPersonSuccess implements Action {

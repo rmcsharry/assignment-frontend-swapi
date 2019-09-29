@@ -4,8 +4,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, tap, filter, take } from 'rxjs/operators';
 
-import * as fromPeople from '../../store/reducers/people.reducer'
-import * as PeopleActions from '../../store/actions/people.actions';
+import * as fromPeople from '../store/reducers/people.reducer'
+import * as PeopleActions from '../store/actions/people.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class PersonGuard implements CanActivate {
         console.log('GUARD ----,', data)
         // if there is no person, dispatch an action to hit the backend
         if (!data) {
-          this.store.dispatch(new PeopleActions.LoadPerson(+this.route.snapshot.params.get('id')));
+          this.store.dispatch(new PeopleActions.LoadPerson({ id: +this.route.snapshot.params.get('id') }));
         }
       }),
       // filter out data, no data === empty!

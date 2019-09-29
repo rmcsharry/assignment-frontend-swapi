@@ -4,7 +4,7 @@ import { PeopleComponent } from './people/people.component';
 import { PeopleListComponent } from './people-list/people-list.component';
 import { PeopleTableComponent } from './people-table/people-table.component';
 import { PersonComponent } from './person/person.component';
-import { PersonGuard } from './people/guards/person-guard';
+import { PersonGuard } from './guards/person-guard';
 
 const routes: Routes = [
   { path: ':id', component: PersonComponent, },

@@ -8,7 +8,6 @@ const initialState: State = {
 }
 
 export function loaderReducer(state: State = initialState, action: LoaderActions) {
-  console.log('LOADER action received:', action, 'STATE IS:', state)
   switch (action.type) {
     case START_LOADER:
       return {

@@ -36,7 +36,8 @@ export class PeopleService {
     );
   }
 
-  getPerson(id: number = 1): Observable<Person> {
+  getPerson(id: number): Observable<Person> {
+    console.log('HERE', id)
     return this.http.get(`${this.endPoint}/${id}`).pipe(
       map((response: Person) => {
         return response
