@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import {ApiBaseInterceptor} from './api-base.interceptor';
-import {HttpErrorInterceptor} from './http-error.interceptor';
+import { ApiBaseInterceptor } from './api-base.interceptor';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 import { CacheInterceptor } from './cache.interceptor';
 import { LoaderInterceptor } from './loader.interceptor';
 

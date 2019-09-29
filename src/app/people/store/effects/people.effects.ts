@@ -7,19 +7,20 @@ import { Store, select } from '@ngrx/store';
 import { PeopleService } from '../../services/people.service';
 import {
   LOAD_PEOPLE_SUCCESS,
-  LOAD_PEOPLE_PAGED,
-  LoadPeoplePaged,
   LoadPerson,
   LOAD_PERSON,
   LOAD_PERSON_SUCCESS,
   SetPeoplePageNumer,
+  LOAD_ALL_PEOPLE,
+  LoadAllPeople,
+  LoadAllSuccess,
+  LoadPersonSuccess,
 } from '../actions/people.actions';
 
 import * as fromPeople from '../reducers/people.reducer'
 import * as fromRoot from '../../../store/reducers';
 
-import { ROUTER_NAVIGATION, ROUTER_NAVIGATED, RouterNavigationAction } from '@ngrx/router-store';
-import {NavigationEnd} from '@angular/router';
+import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 
 @Injectable()
 export class PeopleEffects {
@@ -30,19 +31,26 @@ export class PeopleEffects {
     private store: Store<fromPeople.State>
   ) { }
 
-  loadPeoplePaged$ = createEffect(() => this.actions$.pipe(
-    ofType<LoadPeoplePaged>(LOAD_PEOPLE_PAGED),
+
+  loadAllPeople$ = createEffect(() => this.actions$.pipe(
+    ofType<LoadAllPeople>(LOAD_ALL_PEOPLE),
     mergeMap((data) => this.peopleService.getPeople(data.payload.page).pipe(
       map(apiData => {
-        if (data.payload.page === data.payload.numberOfPages) {
-          // all pages are loaded, so we can now activate page 1
+        console.log('data from API is', apiData)
+        if (!apiData.next) {
+          // no more pages, so we can now activate page 1
           this.store.dispatch(new SetPeoplePageNumer({ page: 1 }));
-        };
+          this.store.dispatch(new LoadAllSuccess({ totalPages: data.payload.page }));
+        }
+        else {
+          this.store.dispatch(new LoadAllPeople({ page: data.payload.page + 1 }))
+        }
         return ({ type: LOAD_PEOPLE_SUCCESS, payload: apiData })
       }),
       catchError(() => EMPTY)
     ))
   ));
+
 
   // TODO: figure out why the selectedRouteid is always 0
   // see personRouted below this one which is somewhat hacky but works
@@ -53,7 +61,7 @@ export class PeopleEffects {
   //     return action.payload.event.url.includes('/characters/')
   //   }),
   //   withLatestFrom(
-  //     this.store.pipe(select(fromRoot.selectRouteId))
+  //     this.store.pipe(select(fromRoot.selectPersonRouteId))
   //   ),
   //   // filter(([{ payload }, routeId]) => routeId !== payload.id),
   //   mergeMap((_, routeId) => {
@@ -73,9 +81,9 @@ export class PeopleEffects {
     mergeMap((action) => of(null)
       .pipe(
         withLatestFrom(
-          this.store.pipe(select(fromRoot.selectRouteId))
+          this.store.pipe(select(fromRoot.selectRouteParam('id')))
         ),
-        map(routeData => new LoadPerson({id: +routeData[1]}) ),
+        map(routeData => new LoadPerson({ internalId: +routeData[1] })),
         catchError(() => EMPTY)
       ))
   ));
@@ -83,15 +91,16 @@ export class PeopleEffects {
   loadPerson$ = createEffect(() => this.actions$.pipe(
     ofType<LoadPerson>(LOAD_PERSON),
     withLatestFrom(
-      this.store.pipe(select(fromPeople.getCurrentPersonId))
+      this.store.pipe(select(fromPeople.getCurrentPersonId)),
+      this.store.pipe(select(fromPeople.getCurrentPersonSwapiId))
     ),
-    filter(([action, id]) => {
-      console.log('HERE', id)
-      return id !== action.payload.id
+    filter(([action, currentPersonId, swapiId]) => {
+      console.log('HERE', currentPersonId, swapiId)
+      return currentPersonId !== action.payload.internalId
     }),
-    mergeMap(([action, _]) => this.peopleService.getPerson(action.payload.id)
+    mergeMap(([action, _, swapiId]) => this.peopleService.getPerson(+swapiId)
       .pipe(
-        map(apiData => ({ type: LOAD_PERSON_SUCCESS, payload: apiData })),
+        map(apiData => new LoadPersonSuccess({ person: apiData, id: action.payload.internalId } )),
         catchError(() => EMPTY)
       ))
     )

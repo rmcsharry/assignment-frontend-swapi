@@ -6,11 +6,10 @@ import {
   LOAD_PEOPLE_SUCCESS,
   LOAD_PERSON_SUCCESS,
   SET_PEOPLE_PAGE_NUMBER,
-  LOAD_PERSON
+  LOAD_ALL_SUCCESS
 } from '../actions/people.actions';
 import { Person } from '../../models/person.model';
 import * as fromRoot from '../../../store/reducers';
-import { selectRouteId } from '../../../store/reducers/index';
 
 export interface PeopleState {
   results: Person[]
@@ -20,6 +19,8 @@ export interface PeopleState {
   page: number,
   currentPerson: Person
   currentPersonId: number
+  allLoaded: boolean
+  totalPages: number
 }
 
 export interface State extends fromRoot.State {
@@ -31,13 +32,15 @@ const initialState: PeopleState = {
   count: 0,
   next: null,
   previous: null,
-  page: 1,
+  page: 0,
   currentPerson: null,
-  currentPersonId: 0
+  currentPersonId: 0,
+  allLoaded: false,
+  totalPages: 0
 }
 
 export function peopleReducer(state = initialState, action: PeopleActions) {
-  console.log('STORE HAS', state.results);
+  console.log('STORE STATE IS ', state, 'ACTION IS ', action);
   switch (action.type) {
     case LOAD_PEOPLE_SUCCESS:
       return {
@@ -52,22 +55,25 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         ...state,
         page: action.payload.page
       };
+    case LOAD_ALL_SUCCESS:
+      return {
+        ...state,
+        allLoaded: true,
+        totalPages: action.payload.totalPages
+      };
     case SET_CURRENT_PERSON:
       console.log('PERSON SELECTED', state, action.payload);
       return {
         ...state,
-        currentPerson: findPerson(state, action.payload.id)
+        currentPerson: findPerson(state, action.payload.id),
+        currentPersonId: action.payload.id
       };
-    // case LOAD_PERSON:
-    //   return {
-    //     ...state,
-    //     currentPersonId: action.payload.id
-    //   };
     case LOAD_PERSON_SUCCESS:
       console.log('PERSON LOADED', state, action.payload);
       return {
         ...state,
-        currentPerson: action.payload
+        currentPerson: action.payload.person,
+        currentPersonId: action.payload.id
       };
     default:
       return state;
@@ -78,8 +84,7 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
 
 function findPerson(state: PeopleState, index: number): Person | null {
   if (state.results.length === 0) {
-    console.log('NO DATA');
-    // Store<PeopleState> dispatch(new LoadPerson(index))
+    console.warn('NO DATA but tried to set person ', index);
     return null;
   } else
     return state.results[index];
@@ -87,18 +92,9 @@ function findPerson(state: PeopleState, index: number): Person | null {
 
 export const getPeople= createFeatureSelector<PeopleState>('people')
 export const getPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
-export const selectCurrentPerson = createSelector(getPeople, selectRouteId, (people, id) => people.results[+id-1]);
+export const selectCurrentPerson = createSelector(getPeople, fromRoot.selectRouteParam('id'), (people, id) => people.results[+id-1]);
 
 export const getCurrentPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
 export const getCurrentPersonId = createSelector(getPeople, (state: PeopleState) => state.currentPersonId);
-
-// export const getPageOfPeople = createSelector(getPeople, (state: PeopleState) => state);
-// export const getPeopleState = createFeatureSelector<State>('people');
-
-// export const getPeople = createSelector(getPeopleState, (state: State) => state.people);
-// export const getPeoplePageNumber = createSelector(getPeopleState, (state: State) => state.people.page);
-
-
-// export const getPageOfPeople = createSelector(getPeopleState, (state: State) =>
-//   state.people);
-// .slice[(state.people.page * pageSize), pageSize]
+export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId)
+export const getIsAllLoaded = createSelector(getPeople, (state: PeopleState) => state.allLoaded);

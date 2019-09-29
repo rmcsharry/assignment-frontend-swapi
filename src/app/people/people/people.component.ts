@@ -9,7 +9,6 @@ import * as fromPeople from '../store/reducers/people.reducer';
   styleUrls: ['./people.component.scss']
 })
 export class PeopleComponent implements OnInit {
-  numberOfPages = 3;
 
   constructor(
     private renderer: Renderer2,
@@ -18,9 +17,11 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.renderer.removeClass(document.body, 'intro');
-    for (let i = 1; i <= this.numberOfPages; i++) {
-      this.store.dispatch(new PeopleActions.LoadPeoplePaged({ page: i, numberOfPages: this.numberOfPages }));
-    };
+    // for (let i = 1; i <= this.numberOfPages; i++) {
+    //   this.store.dispatch(new PeopleActions.LoadPeoplePaged({ page: i, numberOfPages: this.numberOfPages }));
+    // };
+    console.log('PEOPLE INIT')
+    this.store.dispatch(new PeopleActions.LoadAllPeople({ page: 1 }));
   }
 
 }

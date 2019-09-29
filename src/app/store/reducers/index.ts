@@ -24,7 +24,7 @@ export const getIsLoading = createSelector(getLoaderState, fromLoader.getIsLoadi
 
 export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
 
-const {
+export const {
   selectQueryParams,    // select the current route query params
   selectQueryParam,     // factory function to select a query param
   selectRouteParams,    // select the current route params
@@ -32,9 +32,6 @@ const {
   selectRouteData,      // select the current route data
   selectUrl,            // select the current url
 } = fromRouter.getSelectors(selectRouter);
-
-export const selectPersonRouteId = selectRouteParam('state.route.firstChild.firstChild.params');
-export const selectRouteId = selectRouteParam('id');
 
 // export const selectRouteParameters = createSelector(
 //   selectRouter,

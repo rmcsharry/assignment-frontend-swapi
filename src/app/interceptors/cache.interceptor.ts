@@ -17,9 +17,10 @@ export class CacheInterceptor implements HttpInterceptor {
     if (request.method !== "GET") {
       return next.handle(request);
     };
-    console.warn("CacheInterceptor");
+
     const cachedResponse = this.cache.get(request.url);
     if (cachedResponse) {
+      console.warn("CacheInterceptor");
       return of(cachedResponse);
     };
 
