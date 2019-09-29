@@ -52,7 +52,7 @@ export class PeopleEffects {
   ));
 
 
-  // TODO: figure out why the selectedRouteid is always 0
+  // TODO: figure out why, in this effect, the selectPersonRouteid is always 0
   // see personRouted below this one which is somewhat hacky but works
 
   // personRouted$ = createEffect(() => this.actions$.pipe(
@@ -73,6 +73,8 @@ export class PeopleEffects {
   //   })
   // ));
 
+  // TODO: find a better solution, as the below use withLatestFrom, which is not recommended
+  // see this discussion: https://github.com/ngrx/platform/issues/467
   personRouted$ = createEffect(() => this.actions$.pipe(
     ofType<RouterNavigationAction>(ROUTER_NAVIGATION),
     filter((action: RouterNavigationAction<any>) => {
@@ -95,7 +97,7 @@ export class PeopleEffects {
       this.store.pipe(select(fromPeople.getCurrentPersonSwapiId))
     ),
     filter(([action, currentPersonId, swapiId]) => {
-      console.log('HERE', currentPersonId, swapiId)
+      console.log('**ID CHECK**', currentPersonId, swapiId)
       return currentPersonId !== action.payload.internalId
     }),
     mergeMap(([action, _, swapiId]) => this.peopleService.getPerson(+swapiId)

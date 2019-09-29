@@ -1,7 +1,8 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import {Store, select} from '@ngrx/store';
 import * as PeopleActions from '../store/actions/people.actions';
 import * as fromPeople from '../store/reducers/people.reducer';
+import { StartLoader } from 'src/app/store/actions/loader.actions';
 
 @Component({
   selector: 'sw-people',
@@ -17,10 +18,8 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.renderer.removeClass(document.body, 'intro');
-    // for (let i = 1; i <= this.numberOfPages; i++) {
-    //   this.store.dispatch(new PeopleActions.LoadPeoplePaged({ page: i, numberOfPages: this.numberOfPages }));
-    // };
-    console.log('PEOPLE INIT')
+    console.log('**PEOPLE COMPONENT INIT***')
+    this.store.dispatch(new StartLoader);
     this.store.dispatch(new PeopleActions.LoadAllPeople({ page: 1 }));
   }
 

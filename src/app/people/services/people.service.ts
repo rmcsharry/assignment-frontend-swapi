@@ -37,7 +37,7 @@ export class PeopleService {
   }
 
   getPerson(id: number): Observable<Person> {
-    console.log('GETTING FROM APII PERSON NO', id)
+    console.log('GETTING FROM API - PERSON NO', id)
     return this.http.get(`${this.endPoint}/${id}`).pipe(
       map((response: Person) => {
         return response

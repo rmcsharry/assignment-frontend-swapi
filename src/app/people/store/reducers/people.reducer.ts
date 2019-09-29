@@ -40,7 +40,6 @@ const initialState: PeopleState = {
 }
 
 export function peopleReducer(state = initialState, action: PeopleActions) {
-  console.log('STORE STATE IS ', state, 'ACTION IS ', action);
   switch (action.type) {
     case LOAD_PEOPLE_SUCCESS:
       return {
@@ -62,14 +61,12 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         totalPages: action.payload.totalPages
       };
     case SET_CURRENT_PERSON:
-      console.log('PERSON SELECTED', state, action.payload);
       return {
         ...state,
         currentPerson: findPerson(state, action.payload.id),
         currentPersonId: action.payload.id
       };
     case LOAD_PERSON_SUCCESS:
-      console.log('PERSON LOADED', state, action.payload);
       return {
         ...state,
         currentPerson: action.payload.person,

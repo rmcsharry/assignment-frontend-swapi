@@ -7,6 +7,7 @@ import { map, take, takeLast } from 'rxjs/operators';
 import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../store/actions/people.actions';
 import * as fromPeople from '../store/reducers/people.reducer';
+import { StopLoader } from 'src/app/store/actions/loader.actions';
 
 
 
@@ -35,6 +36,7 @@ export class PeopleListComponent implements OnInit {
         console.log('*** DATA is', allLoaded)
         if (allLoaded) {
           this.getPeople();
+          this.store.dispatch(new StopLoader);
         };
       }
     );
