@@ -40,8 +40,8 @@ export class PeopleListComponent implements OnInit {
           page: state.page,
           next: state.next,
           previous: state.previous,
-          selectedPerson: state.selectedPerson,
-          selectedPersonId: state.selectedPersonId
+          currentPerson: state.currentPerson,
+          currentPersonId: state.currentPersonId
         }
       }))
   }
@@ -55,7 +55,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   onSelectPerson(index: number) {
-    this.store.dispatch(new PeopleActions.SetSelectedPerson(index));
+    this.store.dispatch(new PeopleActions.SetCurrentPerson({ id: index }));
     this.router.navigate(['characters', this.personNumber(index)])
   }
 

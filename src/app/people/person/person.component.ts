@@ -25,9 +25,7 @@ export class PersonComponent implements OnInit {
       let index = +data['id'];
       this.pageService.setPageTitle(`Character ${index}`);
     });
-    this.person$ = this.store.pipe(
-      select(fromPeople.getPerson)
-    );
+    this.person$ = this.store.pipe(select(fromPeople.getCurrentPerson));
   }
 
 }

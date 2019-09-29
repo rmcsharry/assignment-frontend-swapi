@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
   PeopleActions,
-  SET_SELECTED_PERSON,
+  SET_CURRENT_PERSON,
   LOAD_PEOPLE_SUCCESS,
   LOAD_PERSON_SUCCESS,
   SET_PEOPLE_PAGE_NUMBER,
@@ -18,8 +18,8 @@ export interface PeopleState {
   next: string,
   previous: string,
   page: number,
-  selectedPerson: Person
-  selectedPersonId: number
+  currentPerson: Person
+  currentPersonId: number
 }
 
 export interface State extends fromRoot.State {
@@ -32,8 +32,8 @@ const initialState: PeopleState = {
   next: null,
   previous: null,
   page: 1,
-  selectedPerson: null,
-  selectedPersonId: 3
+  currentPerson: null,
+  currentPersonId: 0
 }
 
 export function peopleReducer(state = initialState, action: PeopleActions) {
@@ -52,22 +52,22 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         ...state,
         page: action.payload.page
       };
-    case SET_SELECTED_PERSON:
+    case SET_CURRENT_PERSON:
       console.log('PERSON SELECTED', state, action.payload);
       return {
         ...state,
-        selectedPerson: findPerson(state, action.payload)
+        currentPerson: findPerson(state, action.payload.id)
       };
-    case LOAD_PERSON:
-      return {
-        ...state,
-        selectedPersonId: action.payload.id
-      };
+    // case LOAD_PERSON:
+    //   return {
+    //     ...state,
+    //     currentPersonId: action.payload.id
+    //   };
     case LOAD_PERSON_SUCCESS:
       console.log('PERSON LOADED', state, action.payload);
       return {
         ...state,
-        selectedPerson: action.payload
+        currentPerson: action.payload
       };
     default:
       return state;
@@ -86,13 +86,11 @@ function findPerson(state: PeopleState, index: number): Person | null {
 }
 
 export const getPeople= createFeatureSelector<PeopleState>('people')
-export const getPerson = createSelector(getPeople, (state: PeopleState) => state.selectedPerson);
-export const selectCurrentPerson = createSelector(getPeople, selectRouteId, (people, id) => {
-  console.log('THIS IS IT', people, id)
-  return people.results[+id - 1]
-});
+export const getPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
+export const selectCurrentPerson = createSelector(getPeople, selectRouteId, (people, id) => people.results[+id-1]);
 
-export const getSelectedPerson = createSelector(getPeople, (state: PeopleState) => state.selectedPerson);
+export const getCurrentPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
+export const getCurrentPersonId = createSelector(getPeople, (state: PeopleState) => state.currentPersonId);
 
 // export const getPageOfPeople = createSelector(getPeople, (state: PeopleState) => state);
 // export const getPeopleState = createFeatureSelector<State>('people');

@@ -66,7 +66,7 @@ export class PeopleEffects {
   // ));
 
   personRouted$ = createEffect(() => this.actions$.pipe(
-    ofType<RouterNavigationAction>(ROUTER_NAVIGATED),
+    ofType<RouterNavigationAction>(ROUTER_NAVIGATION),
     filter((action: RouterNavigationAction<any>) => {
       return action.payload.event.url.includes('/characters/')
     }),
@@ -82,7 +82,14 @@ export class PeopleEffects {
 
   loadPerson$ = createEffect(() => this.actions$.pipe(
     ofType<LoadPerson>(LOAD_PERSON),
-    mergeMap((data) => this.peopleService.getPerson(data.payload.id)
+    withLatestFrom(
+      this.store.pipe(select(fromPeople.getCurrentPersonId))
+    ),
+    filter(([action, id]) => {
+      console.log('HERE', id)
+      return id !== action.payload.id
+    }),
+    mergeMap(([action, _]) => this.peopleService.getPerson(action.payload.id)
       .pipe(
         map(apiData => ({ type: LOAD_PERSON_SUCCESS, payload: apiData })),
         catchError(() => EMPTY)
@@ -106,31 +113,5 @@ export class PeopleEffects {
   //       catchError(() => EMPTY)
   //     ))
   // );
-
-
-
-// getPageOfPeople$ = createEffect(() => this.actions$.pipe(
-//   ofType<GetPageOfPeople>(GET_PAGE_OF_PEOPLE),
-//   mergeMap((payload) => this.peopleService.getPerson(payload.id)
-//     .pipe(
-//       map(apiData => ({ type: LOAD_PERSON_SUCCESS, payload: apiData })),
-//       catchError(() => EMPTY)
-//     ))
-//   )
-// );
-
-// loadPerson$ = createEffect(() => this.actions$.pipe(
-//   ofType<LoadPerson>(LOAD_PERSON),
-//   withLatestFrom(
-//       this.store.pipe(select(fromRoot.selectRouteId))
-//     ),
-//     filter(([{ payload }, routeId]) => +routeId !== payload.id),
-//     mergeMap((payload) => this.peopleService.getPerson(payload.id)
-//       .pipe(
-//         map(apiData => ({ type: LOAD_PERSON_SUCCESS, payload: apiData })),
-//         catchError(() => EMPTY)
-//       ))
-//   )
-// );
 
 }
