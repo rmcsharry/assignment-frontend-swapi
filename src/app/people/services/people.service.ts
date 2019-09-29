@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {map, tap, filter} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Person } from '../models/person.model';
 import { JsonApi } from '../../types/json-api.interface';
-import * as fromPeople from '../reducers/people.reducer';
-import { Store, select } from '@ngrx/store';
-import { LoadPeoplePaged } from '../actions/people.actions';
+import * as fromPeople from '../store/reducers/people.reducer';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'

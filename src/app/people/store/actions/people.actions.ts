@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Person } from '../models/person.model';
-import { JsonApi } from '../../types/json-api.interface';
+import { Person } from '../../models/person.model';
+import { JsonApi } from '../../../types/json-api.interface';
 
 export const LOAD_PEOPLE_PAGED = '[People Paged] LOAD_PEOPLE_PAGED';
 export const LOAD_PEOPLE_SUCCESS = '[People Paged] LOAD_PEOPLE_SUCCESS';

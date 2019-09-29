@@ -13,8 +13,8 @@ import { PeopleTableComponent } from './people-table/people-table.component';
 import { PeopleComponent } from './people/people.component';
 import { PersonComponent } from './person/person.component';
 
-import { peopleReducer } from './reducers/people.reducer';
-import { PeopleEffects } from './effects/people.effects';
+import { peopleReducer } from './store/reducers/people.reducer';
+import { PeopleEffects } from './store/effects/people.effects';
 
 
 @NgModule({

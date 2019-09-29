@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
-import * as PeopleActions from '../actions/people.actions';
-import * as fromPeople from '../reducers/people.reducer';
+import * as PeopleActions from '../store/actions/people.actions';
+import * as fromPeople from '../store/reducers/people.reducer';
 
 
 
@@ -30,7 +30,7 @@ export class PeopleListComponent implements OnInit {
 
   ngOnInit() {
     this.pageService.setPageTitle('Character List');
-    this.people$ = this.store.pipe(select(fromPeople.getPageOfPeople))
+    this.people$ = this.store.pipe(select(fromPeople.getPeople))
       .pipe(map((state) => {
         this.page = state.page;
         console.log('DATA HOT******', state)

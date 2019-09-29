@@ -15,10 +15,11 @@ import { IntroComponent } from './intro/intro.component';
 import { HomeComponent } from './home/home.component';
 import { PageTitleComponent } from './page-title/page-title.component';
 import { LoaderComponent } from './loader/loader.component';
-import { reducers } from './app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { initApp } from './init-app';
 import { HttpClient } from '@angular/common/http';
+import { reducers } from './store/reducers';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -38,17 +39,18 @@ import { HttpClient } from '@angular/common/http';
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
-        strictStateSerializability: true,
-        strictActionSerializability: true,
+        // strictStateSerializability: true,
+        // strictActionSerializability: true,
       },
     }),
+    StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       name: 'RoocketLoop Star Wars',
       maxAge: 5
     }),
     HttpClientModule,
-    NgxTypedJsModule
+    NgxTypedJsModule,
   ],
   providers: [
     httpInterceptorProviders,

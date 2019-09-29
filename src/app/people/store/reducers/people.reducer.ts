@@ -7,9 +7,9 @@ import {
   LOAD_PERSON_SUCCESS,
   SET_PEOPLE_PAGE_NUMBER
 } from '../actions/people.actions';
-import { Person } from '../models/person.model';
-import * as fromRoot from '../../app.reducer';
-
+import { Person } from '../../models/person.model';
+import * as fromRoot from '../../../store/reducers';
+import { selectRouteId } from '../../../store/reducers/index';
 
 export interface PeopleState {
   results: Person[]
@@ -77,6 +77,17 @@ function findPerson(state: PeopleState, index: number): Person | null {
     return state.results[index];
 }
 
+export const getPeople= createFeatureSelector<PeopleState>('people')
+export const getPerson = createSelector(getPeople, (state: PeopleState) => state.selectedPerson);
+
+
+export const selectCurrentPerson = createSelector(
+  getPeople,
+  selectRouteId,
+  (people, id) => people.results[+id-1]
+);
+
+// export const getPageOfPeople = createSelector(getPeople, (state: PeopleState) => state);
 // export const getPeopleState = createFeatureSelector<State>('people');
 
 // export const getPeople = createSelector(getPeopleState, (state: State) => state.people);
@@ -86,7 +97,3 @@ function findPerson(state: PeopleState, index: number): Person | null {
 // export const getPageOfPeople = createSelector(getPeopleState, (state: State) =>
 //   state.people);
 // .slice[(state.people.page * pageSize), pageSize]
-
-export const getPeople= createFeatureSelector<PeopleState>('people')
-export const getPageOfPeople = createSelector(getPeople, (state: PeopleState) => state);
-export const getPerson = createSelector(getPeople, (state: PeopleState) => state.selectedPerson);

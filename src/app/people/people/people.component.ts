@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as PeopleActions from '../actions/people.actions';
-import * as fromPeople from '../reducers/people.reducer';
+import * as PeopleActions from '../store/actions/people.actions';
+import * as fromPeople from '../store/reducers/people.reducer';
 
 @Component({
   selector: 'sw-people',

@@ -1,4 +1,4 @@
-import { LoaderActions, START_LOADER, STOP_LOADER } from './loader.actions';
+import { LoaderActions, START_LOADER, STOP_LOADER } from '../actions/loader.actions';
 
 export interface State  {
   isLoading: boolean;
