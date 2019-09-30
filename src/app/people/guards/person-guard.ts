@@ -30,7 +30,7 @@ export class PersonGuard implements CanActivate {
         console.log('GUARD ----,', data)
         // if there is no person, dispatch an action to hit the backend
         if (!data) {
-          this.store.dispatch(new PeopleActions.LoadPerson({ id: +this.route.snapshot.params.get('id') }));
+          this.store.dispatch(new PeopleActions.LoadPerson({ internalId: +this.route.snapshot.params.get('id') }));
         }
       }),
       // filter out data, no data === empty!

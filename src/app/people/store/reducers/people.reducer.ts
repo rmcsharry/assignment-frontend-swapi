@@ -13,10 +13,10 @@ import * as fromRoot from '../../../store/reducers';
 
 export interface PeopleState {
   results: Person[]
-  count: number,
-  next: string,
-  previous: string,
-  page: number,
+  count: number
+  next: string
+  previous: string
+  page: number
   currentPerson: Person
   currentPersonId: number
   allLoaded: boolean
@@ -63,8 +63,8 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
     case SET_CURRENT_PERSON:
       return {
         ...state,
-        currentPerson: findPerson(state, action.payload.id),
-        currentPersonId: action.payload.id
+        currentPerson: findPerson(state, action.payload.internalId),
+        currentPersonId: action.payload.internalId
       };
     case LOAD_PERSON_SUCCESS:
       return {
@@ -84,7 +84,7 @@ function findPerson(state: PeopleState, index: number): Person | null {
     console.warn('NO DATA but tried to set person ', index);
     return null;
   } else
-    return state.results[index];
+    return state.results[index - 1];
 }
 
 export const getPeople= createFeatureSelector<PeopleState>('people')

@@ -20,6 +20,8 @@ import { initApp } from './init-app';
 import { HttpClient } from '@angular/common/http';
 import { reducers } from './store/reducers';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { AppInitEffects } from './store/effects/app-init.effects';
+import { InitEffects } from './store/effects/init.effects';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
       },
     }),
     StoreRouterConnectingModule.forRoot(),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AppInitEffects, InitEffects]),
     StoreDevtoolsModule.instrument({
       name: 'RoocketLoop Star Wars',
       maxAge: 5

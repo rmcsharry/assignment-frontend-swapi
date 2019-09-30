@@ -8,10 +8,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CustomMaterialModule } from '../custom-material/custom-material.module';
 import { PeopleRoutingModule } from './people-routing.module';
 
-import { PeopleListComponent } from './people-list/people-list.component';
-import { PeopleTableComponent } from './people-table/people-table.component';
-import { PeopleComponent } from './people/people.component';
-import { PersonComponent } from './person/person.component';
+import { PeopleListComponent } from './components/people-list/people-list.component';
+import { PeopleTableComponent } from './components/people-table/people-table.component';
+import { PeopleComponent } from './components/people/people.component';
+import { PersonComponent } from './components/person/person.component';
 
 import { peopleReducer } from './store/reducers/people.reducer';
 import { PeopleEffects } from './store/effects/people.effects';

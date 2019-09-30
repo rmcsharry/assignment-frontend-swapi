@@ -1,7 +1,7 @@
 import { LoaderActions, START_LOADER, STOP_LOADER } from '../actions/loader.actions';
 
 export interface State  {
-  isLoading: boolean;
+  isLoading: boolean
 }
 const initialState: State = {
   isLoading: false

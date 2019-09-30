@@ -1,7 +1,8 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import {Store, select} from '@ngrx/store';
-import * as PeopleActions from '../store/actions/people.actions';
-import * as fromPeople from '../store/reducers/people.reducer';
+import { Store } from '@ngrx/store';
+
+import * as PeopleActions from '../../store/actions/people.actions';
+import * as fromPeople from '../../store/reducers/people.reducer';
 import { StartLoader } from 'src/app/store/actions/loader.actions';
 
 @Component({

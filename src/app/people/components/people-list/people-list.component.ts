@@ -5,11 +5,9 @@ import { Router } from '@angular/router';
 import { map, take, takeLast } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
-import * as PeopleActions from '../store/actions/people.actions';
-import * as fromPeople from '../store/reducers/people.reducer';
+import * as PeopleActions from '../../store/actions/people.actions';
+import * as fromPeople from '../../store/reducers/people.reducer';
 import { StopLoader } from 'src/app/store/actions/loader.actions';
-
-
 
 @Component({
   selector: 'sw-people-list',
@@ -70,7 +68,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   onSelectPerson(index: number, url: string) {
-    this.store.dispatch(new PeopleActions.SetCurrentPerson({ id: this.personNumber(index) }));
+    this.store.dispatch(new PeopleActions.SetCurrentPerson({ internalId: this.personNumber(index) }));
     this.router.navigate(['characters', this.personNumber(index)], { queryParams: { swapiId: this.personUrlId(url) }})
   }
 

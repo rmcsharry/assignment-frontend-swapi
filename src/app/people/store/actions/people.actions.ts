@@ -27,7 +27,7 @@ export class LoadAllSuccess implements Action {
 export class LoadPeopleSuccess implements Action {
   readonly type = LOAD_PEOPLE_SUCCESS;
 
-  constructor(public payload: JsonApi<Person[]>) { }
+  constructor(public payload: JsonApi<Person>) { }
 }
 
 export class SetPeoplePageNumer implements Action {
@@ -51,7 +51,7 @@ export class LoadPersonSuccess implements Action {
 export class SetCurrentPerson implements Action {
   readonly type = SET_CURRENT_PERSON;
 
-  constructor(public payload: { id: number } ) { }
+  constructor(public payload: { internalId: number } ) { }
 }
 
 export type PeopleActions =
