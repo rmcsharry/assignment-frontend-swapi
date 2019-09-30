@@ -7,6 +7,7 @@ import {
   createFeatureSelector,
   createSelector,
 } from '@ngrx/store';
+import {InitState} from './init.reducer';
 
 export interface State {
   initData: fromInit.InitState,
@@ -21,8 +22,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 export const getLoaderState = createFeatureSelector<fromLoader.State>('loader');
-export const getIsLoading = createSelector(getLoaderState, fromLoader.getIsLoading);
-
+export const getInitData = createFeatureSelector<State, fromInit.InitState>('initData');
 export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
 
 export const {
@@ -33,3 +33,18 @@ export const {
   selectRouteData,      // select the current route data
   selectUrl,            // select the current url
 } = fromRouter.getSelectors(selectRouter);
+
+// export const getMovies = createSelector(getInitData, (state: InitState) => state.movies);
+// export const getSpecies = createSelector(getInitData, (state: InitState) => state.species);
+// export const getStarships = createSelector(getInitData, (state: InitState) => state.starships);
+
+// export const selectCurrentPerson = createSelector(getPeople, fromRoot.selectRouteParam('id'), (people, id) => people.results[+id-1]);
+
+export const getIsLoading = createSelector(getLoaderState, fromLoader.getIsLoading);
+
+// TODO: refactor these selector to DRY them
+export const findASpecies = (url: string) => createSelector(getInitData, (state: InitState) => state.species.find(el => el.url === url));
+export const findAStarship = (url: string) => createSelector(getInitData, (state: InitState) => state.starships.find(el => el.url === url));
+export const findAMovie = (url: string) => createSelector(getInitData, (state: InitState) => state.movies.find(el => el.url === url));
+
+export const getIsInitLoadComplete = createSelector(getInitData, (state: InitState) => state.initLoadedCounter === 3);

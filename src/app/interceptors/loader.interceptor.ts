@@ -17,17 +17,16 @@ export class LoaderInterceptor implements HttpInterceptor {
     private store: Store<{ app: fromRoot.State }>,
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!request.url.includes('people/?page')) {
+    if (request.url.includes('people/?page=1')) {
       this.store.dispatch(new Loader.StartLoader())
-      // deliberate delay to ensure loading animation is seen at least once! Got to flaunt that Star Wars humour ;)
-      return next.handle(request).pipe(
-        delay(1000),
-        finalize(() => {
-          this.store.dispatch(new Loader.StopLoader())
-        })
-      );
-    } else {
-        return next.handle(request);
     };
+
+    // deliberate delay to ensure loading animation is seen at least once! Got to flaunt that Star Wars humour ;)
+    return next.handle(request).pipe(
+      delay(0),
+      finalize(() => {
+        if (request.url.includes('people/?page=9')) this.store.dispatch(new Loader.StopLoader())
+      })
+    );
   }
 }

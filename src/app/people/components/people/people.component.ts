@@ -19,8 +19,6 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.renderer.removeClass(document.body, 'intro');
-    console.log('**PEOPLE COMPONENT INIT***')
-    this.store.dispatch(new StartLoader);
     this.store.dispatch(new PeopleActions.LoadAllPeople({ page: 1 }));
   }
 

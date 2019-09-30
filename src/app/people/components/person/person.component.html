@@ -3,21 +3,51 @@
     <mat-card-header>
       <img mat-card-avatar src="https://robohash.org/{{person.name}}.png">
       <mat-card-title>{{person.name}}</mat-card-title>
-      <mat-card-subtitle>Species: {{person.species}}</mat-card-subtitle>
+      <mat-card-subtitle>Born: <span class="data-text">{{person.birth_year}}</span>
+      </mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://robohash.org/{{person.name}}.png" alt="Photo of a Star Wars character">
-    <mat-card-content>
-      <p>
-        Spaceships
-      </p>
-      <p>
-        Movies
-      </p>
-    </mat-card-content>
+
+    <section *ngIf="isInitLoadComplete$ | async; else loading">
+      <img mat-card-image src="https://robohash.org/{{person.name}}.png" alt="Photo of a Star Wars character">
+
+      <mat-card-subtitle class="sw-subtitle">
+        Species:
+      </mat-card-subtitle>
+      <mat-list dense>
+        <mat-list-item *ngIf="person.species.length === 0">n/a</mat-list-item>
+        <ng-container *ngFor="let item of person.species">
+          <mat-list-item>{{(getSpecies(item) | async)?.name}}</mat-list-item>
+        </ng-container>
+      </mat-list>
+
+      <mat-card-subtitle class="sw-subtitle">
+        Starships:
+      </mat-card-subtitle>
+      <mat-list dense>
+        <mat-list-item *ngIf="person.starships.length === 0">n/a</mat-list-item>
+        <ng-container *ngFor="let item of person.starships">
+          <mat-list-item>{{(getStarships(item) | async)?.name}}</mat-list-item>
+        </ng-container>
+      </mat-list>
+
+      <mat-card-subtitle class="sw-subtitle">
+        Movies:
+      </mat-card-subtitle>
+      <mat-list dense>
+        <mat-list-item *ngIf="person.films.length === 0">n/a</mat-list-item>
+        <ng-container *ngFor="let item of person.films">
+          <mat-list-item>{{(getMovies(item) | async)?.title}}</mat-list-item>
+        </ng-container>
+      </mat-list>
+    </section>
+    <ng-template #loading>
+      <mat-spinner></mat-spinner>
+    </ng-template>
     <mat-card-actions>
       <button mat-raised-button color="primary">LIKE</button>
       <button mat-raised-button color="primary">SHARE</button>
     </mat-card-actions>
+
   </mat-card>
 </div>
 <!-- <pre>{{ person$ | async | json }}</pre> -->

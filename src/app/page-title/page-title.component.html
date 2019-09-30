@@ -1,3 +1,15 @@
-<h1 id="lucasarts">{{'{'}}</h1>
-<h1 id="logo">@</h1>
-<h2>{{pageTitle}}</h2>
+<div>
+  <a routerLink="home" id="lucasarts">
+    <h1>{{'{'}}</h1>
+  </a>
+  <a routerLink="home" id="logo">
+    <h1>@</h1>
+  </a>
+  <h2 *ngIf="pageTitle.includes('Patience'); else otherTitle">
+    {{pageTitle}}
+  </h2>
+  <ng-template #otherTitle>
+    <h3>{{pageTitle}}</h3>
+  </ng-template>
+</div>
+

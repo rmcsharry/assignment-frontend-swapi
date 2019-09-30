@@ -7,7 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CustomMaterialModule } from '../custom-material/custom-material.module';
 import { PeopleRoutingModule } from './people-routing.module';
-
+import { NgxTypedJsModule } from 'ngx-typed-js';
 import { PeopleListComponent } from './components/people-list/people-list.component';
 import { PeopleTableComponent } from './components/people-table/people-table.component';
 import { PeopleComponent } from './components/people/people.component';
@@ -15,6 +15,7 @@ import { PersonComponent } from './components/person/person.component';
 
 import { peopleReducer } from './store/reducers/people.reducer';
 import { PeopleEffects } from './store/effects/people.effects';
+import { LoaderComponent } from '../loader/loader.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { PeopleEffects } from './store/effects/people.effects';
     PeopleListComponent,
     PeopleTableComponent,
     PeopleComponent,
-    PersonComponent
+    PersonComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { PeopleEffects } from './store/effects/people.effects';
     FlexLayoutModule,
     ReactiveFormsModule,
     StoreModule.forFeature('people', peopleReducer),
-    EffectsModule.forFeature([PeopleEffects])
+    EffectsModule.forFeature([PeopleEffects]),
+    NgxTypedJsModule
   ]
 })
 export class PeopleModule { }

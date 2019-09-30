@@ -1,10 +1,12 @@
 #skip {
   position: fixed;
-  top: 100px;
+  top: 140px;
   left: 50px;
   z-index: 10;
 }
-
+#intro {
+  margin-top: 40px;
+}
 // Star Wars animation - ref: https://css-tricks.com/snippets/css/star-wars-crawl-text/
 section {
   /* Force to fill the entire screen */

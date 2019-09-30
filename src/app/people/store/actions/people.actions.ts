@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Person } from '../../models/person.model';
 import { JsonApi } from '../../../types/json-api.interface';
 
-export const LOAD_ALL_PEOPLE = '[People Paged] LOAD_ALL_PEOPLE';
+export const LOAD_ALL_PEOPLE_SUCCESS = '[People Paged] LOAD_ALL_PEOPLE_SUCCESS';
 export const LOAD_ALL_SUCCESS = '[People Paged] LOAD_ALL_SUCCESS';
 export const LOAD_PEOPLE_SUCCESS = '[People Paged] LOAD_PEOPLE_SUCCESS';
 export const GET_PAGE_OF_PEOPLE = '[People Paged] GET_PAGE_OF_PEOPLE';
@@ -13,12 +13,12 @@ export const LOAD_PERSON = '[People] LOAD_PERSON';
 export const LOAD_PERSON_SUCCESS = '[People Paged] LOAD_PERSON_SUCCESS';
 
 export class LoadAllPeople implements Action {
-  readonly type = LOAD_ALL_PEOPLE;
+  readonly type = LOAD_ALL_PEOPLE_SUCCESS;
 
   constructor(readonly payload: { page: number } ) { }
 }
 
-export class LoadAllSuccess implements Action {
+export class LoadAllPeopleSuccess implements Action {
   readonly type = LOAD_ALL_SUCCESS;
 
   constructor(readonly payload: { totalPages: number } ) { }
@@ -55,5 +55,5 @@ export class SetCurrentPerson implements Action {
 }
 
 export type PeopleActions =
-  LoadAllPeople | LoadAllSuccess | LoadPeopleSuccess | SetPeoplePageNumer |
+  LoadAllPeople | LoadAllPeopleSuccess | LoadPeopleSuccess | SetPeoplePageNumer |
   LoadPerson | LoadPersonSuccess | SetCurrentPerson;

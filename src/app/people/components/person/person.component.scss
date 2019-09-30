@@ -1,8 +1,30 @@
+.data-text {
+  color: white;
+}
 .character-card {
   margin-top: 50px;
   max-width: 400px;
 }
-mat-card-actions {
+.mat-card-image {
+  min-height: 300px;
+  min-width: 300px;
+}
+.mat-card-actions {
   margin-left: 0;
-  padding-bottom: 0;
+  padding-top: 20px !important;
+  padding-bottom: 10px !important;
+}
+.mat-list-base[dense] .mat-list-item, .mat-list-base[dense] .mat-list-option {
+  height: 100%;
+}
+.mat-list-item-content {
+  padding-left: 0;
+  padding-right: 0;
+}
+.sw-subtitle {
+  margin-bottom: 0;
+  padding-top: 16px;
+}
+.mat-spinner {
+  margin: auto;
 }

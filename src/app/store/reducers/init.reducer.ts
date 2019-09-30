@@ -1,17 +1,21 @@
-import { InitActions, LOAD_SPECIES_SUCCESS, LOAD_MOVIES_SUCCESS, LOAD_STARSHIPS_SUCCESS} from '../actions/init.actions';
+import { InitActions, LOAD_SPECIES_SUCCESS, LOAD_MOVIES_SUCCESS, LOAD_STARSHIPS_SUCCESS, LOAD_INIT_SUCCESS} from '../actions/init.actions';
 import { Specie } from 'src/app/models/specie';
 import { Movie } from 'src/app/models/movie';
 import { Starship } from 'src/app/models/starship';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import * as fromRoot from '../reducers';
 
 export interface InitState  {
   species: Specie[];
   movies: Movie[];
   starships: Starship[];
+  initLoadedCounter: number; // used to count how many initial entity loads have completed
 }
 const initialState: InitState = {
   species: [],
   movies: [],
-  starships: []
+  starships: [],
+  initLoadedCounter: 0
 }
 
 export function initReducer(state: InitState = initialState, action: InitActions) {
@@ -31,6 +35,11 @@ export function initReducer(state: InitState = initialState, action: InitActions
         ...state,
         starships: [...state.starships, ...action.payload.results]
       };
+    case LOAD_INIT_SUCCESS:
+      return {
+        ...state,
+        initLoadedCounter: state.initLoadedCounter + 1
+      }
     default:
       return state;
   }

@@ -11,9 +11,9 @@ import {
   LOAD_PERSON,
   LOAD_PERSON_SUCCESS,
   SetPeoplePageNumer,
-  LOAD_ALL_PEOPLE,
+  LOAD_ALL_PEOPLE_SUCCESS,
   LoadAllPeople,
-  LoadAllSuccess,
+  LoadAllPeopleSuccess,
   LoadPersonSuccess,
 } from '../actions/people.actions';
 
@@ -33,13 +33,13 @@ export class PeopleEffects {
 
 
   loadAllPeople$ = createEffect(() => this.actions$.pipe(
-    ofType<LoadAllPeople>(LOAD_ALL_PEOPLE),
+    ofType<LoadAllPeople>(LOAD_ALL_PEOPLE_SUCCESS),
     mergeMap((data) => this.peopleService.getPeople(data.payload.page).pipe(
       map(apiData => {
         if (!apiData.next) {
           // no more pages, so we can now activate page 1
           this.store.dispatch(new SetPeoplePageNumer({ page: 1 }));
-          this.store.dispatch(new LoadAllSuccess({ totalPages: data.payload.page }));
+          this.store.dispatch(new LoadAllPeopleSuccess({ totalPages: data.payload.page }));
         }
         else {
           this.store.dispatch(new LoadAllPeople({ page: data.payload.page + 1 }))

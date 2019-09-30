@@ -34,7 +34,6 @@ export class PeopleListComponent implements OnInit {
         console.log('*** DATA is', allLoaded)
         if (allLoaded) {
           this.getPeople();
-          this.store.dispatch(new StopLoader);
         };
       }
     );
@@ -44,6 +43,7 @@ export class PeopleListComponent implements OnInit {
     this.people$ = this.store.select(fromPeople.getPeople).pipe(
       map((state) => {
         this.page = state.page;
+
         return {
           count: state.count,
           results: state.results.slice((state.page * this.pageSize) - this.pageSize, this.pageSize * state.page),
