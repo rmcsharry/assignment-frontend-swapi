@@ -4,8 +4,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, tap, filter, take } from 'rxjs/operators';
 
-import * as fromPeople from '../store/reducers/people.reducer'
-import * as PeopleActions from '../store/actions/people.actions';
+import * as fromPeople from '../people-store/reducers/people.reducer'
+import * as PeopleActions from '../people-store/actions/people.actions';
 
 @Injectable({
   providedIn: 'root'

@@ -8,6 +8,7 @@ import {
   createSelector,
 } from '@ngrx/store';
 import { InitState } from './init.reducer';
+import {Specie} from 'src/app/models/specie';
 
 export interface State {
   initData: fromInit.InitState,
@@ -40,10 +41,14 @@ export const getIsLoading = createSelector(getLoaderState, fromLoader.getIsLoadi
 export const getInitData = createFeatureSelector<State, fromInit.InitState>('initData');
 export const getIsInitLoadComplete = createSelector(getInitData, (state: InitState) => state.initLoadedCounter === 3);
 export const getMovies = createSelector(getInitData, (state: InitState) => state.movies);
-export const getSpecies = createSelector(getInitData, (state: InitState) => state.species);
+export const getSpecies = createSelector(getInitData, (state: InitState) => sortSpecie(state.species.slice()));
 export const getStarships = createSelector(getInitData, (state: InitState) => state.starships);
 // TODO: refactor these selectors to DRY them out
 export const findASpecies = (url: string) => createSelector(getInitData, (state: InitState) => state.species.find(el => el.url === url));
 export const findAStarship = (url: string) => createSelector(getInitData, (state: InitState) => state.starships.find(el => el.url === url));
 export const findAMovie = (url: string) => createSelector(getInitData, (state: InitState) => state.movies.find(el => el.url === url));
 
+const sortSpecie = (data: Array<Specie>): Specie[] => {
+  const sortByKey = (key: string) => (a: Specie, b: Specie) => a[key] > b[key] ? 1: -1
+  return data.sort(sortByKey('name'))
+}

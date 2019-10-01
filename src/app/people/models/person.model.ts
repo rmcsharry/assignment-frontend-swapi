@@ -60,11 +60,11 @@ export interface Person {
   /**
    * The url of the species resource that this person is.
    */
-  species: any[];
+  species: string[];
   /**
    * An array of starship resources that this person has piloted
    */
-  starships: any[];
+  starships: string[];
   /**
    * The url of this resource
    */

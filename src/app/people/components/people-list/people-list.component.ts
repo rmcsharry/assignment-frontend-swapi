@@ -1,13 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { map, take, takeLast } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
-import * as PeopleActions from '../../store/actions/people.actions';
-import * as fromPeople from '../../store/reducers/people.reducer';
-import { StopLoader } from 'src/app/store/actions/loader.actions';
+import * as PeopleActions from '../../people-store/actions/people.actions';
+import * as fromPeople from '../../people-store/reducers/people.reducer';
 
 @Component({
   selector: 'sw-people-list',
@@ -18,7 +17,7 @@ export class PeopleListComponent implements OnInit {
   @Input() numberOfPages: number = 1;
   people$: Observable<fromPeople.PeopleState>;
   page: number;
-  pageSize = 10;
+  pageSize = fromPeople.peoplePageSize;
 
   constructor(
     private pageService: PageService,
@@ -40,10 +39,9 @@ export class PeopleListComponent implements OnInit {
   }
 
   private getPeople(): void {
-    this.people$ = this.store.select(fromPeople.getPeople).pipe(
+    this.people$ = this.store.select(fromPeople.getPeopleFiltered).pipe(
       map((state) => {
         this.page = state.page;
-
         return {
           count: state.count,
           results: state.results.slice((state.page * this.pageSize) - this.pageSize, this.pageSize * state.page),
@@ -53,7 +51,8 @@ export class PeopleListComponent implements OnInit {
           currentPerson: state.currentPerson,
           currentPersonId: state.currentPersonId,
           allLoaded: state.allLoaded,
-          totalPages: state.totalPages
+          totalPages: state.totalPages,
+          filters: state.filters
         };
       })
     );

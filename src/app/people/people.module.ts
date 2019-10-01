@@ -13,11 +13,12 @@ import { PeopleTableComponent } from './components/people-table/people-table.com
 import { PeopleComponent } from './components/people/people.component';
 import { PersonComponent } from './components/person/person.component';
 
-import { peopleReducer } from './store/reducers/people.reducer';
-import { PeopleEffects } from './store/effects/people.effects';
+import { peopleReducer } from './people-store/reducers/people.reducer';
+import { PeopleEffects } from './people-store/effects/people.effects';
 import { LoaderComponent } from '../loader/loader.component';
 import { PeopleFilterFormComponent } from './components/people-filter-form/people-filter-form.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { PeopleFilterPipe } from './pipes/people-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     PeopleComponent,
     PersonComponent,
     LoaderComponent,
-    PeopleFilterFormComponent
+    PeopleFilterFormComponent,
+    PeopleFilterPipe
   ],
   imports: [
     CommonModule,

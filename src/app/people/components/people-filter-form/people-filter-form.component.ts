@@ -7,6 +7,8 @@ import * as fromInitData from '../../../store/reducers';
 import { take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material';
 import { Specie } from 'src/app/models/specie';
+import { SetPeopleFilter } from '../../people-store/actions/people.actions';
+import { ENUM_FILTERTYPE_SPECIES } from '../../people-store/reducers/people.reducer';
 
 @Component({
   selector: 'sw-people-filter-form',
@@ -62,6 +64,13 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
       'species': [''],
       'movie': ['']
     })
+  }
+
+  onSpeciesSelected(data: Specie) {
+    if (!data)
+      this.store.dispatch(new SetPeopleFilter({ type: ENUM_FILTERTYPE_SPECIES, value: '' }));
+    else
+      this.store.dispatch(new SetPeopleFilter({ type: ENUM_FILTERTYPE_SPECIES, value: data.url }));
   }
 
   protected setCompareFunction() {

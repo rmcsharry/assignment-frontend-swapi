@@ -1,10 +1,10 @@
 <form [formGroup]="filterForm" fxLayoutGap="20px">
   <mat-form-field>
-    <mat-select placeholder="Select a species" [formControl]="speciesCtrl" #speciesSelect>
+    <mat-select placeholder="Select a species" formControlName="species" (selectionChange)="onSpeciesSelected($event.value)" #speciesSelect>
       <mat-option>
         <ngx-mat-select-search [formControl]="speciesFilterCtrl"></ngx-mat-select-search>
       </mat-option>
-      <mat-option class="option-none">None</mat-option>
+      <mat-option class="option-none" *ngIf="!speciesFilterCtrl.value">None</mat-option>
       <mat-option class="option" *ngFor="let specie of filteredSpecies$ | async" [value]="specie">
         {{ specie.name }}
       </mat-option>
