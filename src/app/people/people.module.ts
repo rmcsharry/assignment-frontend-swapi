@@ -16,7 +16,8 @@ import { PersonComponent } from './components/person/person.component';
 import { peopleReducer } from './store/reducers/people.reducer';
 import { PeopleEffects } from './store/effects/people.effects';
 import { LoaderComponent } from '../loader/loader.component';
-
+import { PeopleFilterFormComponent } from './components/people-filter-form/people-filter-form.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { LoaderComponent } from '../loader/loader.component';
     PeopleTableComponent,
     PeopleComponent,
     PersonComponent,
-    LoaderComponent
+    LoaderComponent,
+    PeopleFilterFormComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { LoaderComponent } from '../loader/loader.component';
     ReactiveFormsModule,
     StoreModule.forFeature('people', peopleReducer),
     EffectsModule.forFeature([PeopleEffects]),
-    NgxTypedJsModule
+    NgxTypedJsModule,
+    NgxMatSelectSearchModule
   ]
 })
 export class PeopleModule { }

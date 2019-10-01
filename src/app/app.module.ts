@@ -51,7 +51,7 @@ import { InitEffects } from './store/effects/init.effects';
       name: 'RoocketLoop Star Wars',
       maxAge: 5
     }),
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [
     httpInterceptorProviders,

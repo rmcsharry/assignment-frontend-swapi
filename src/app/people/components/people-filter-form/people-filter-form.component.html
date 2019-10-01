@@ -1,0 +1,15 @@
+<form [formGroup]="filterForm">
+  <mat-form-field>
+    <mat-select placeholder="Select a movie" formControlName="movie" [(value)]="selectedMovie" #movieSelect>
+      <mat-option>
+        <ngx-mat-select-search [formControl]="movieFilterCtrl"></ngx-mat-select-search>
+      </mat-option>
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let movie of filteredMovies | async" [value]="movie.url">
+        {{ movie.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <label for="species">Species</label>
+  <input type="text" id="species" formControlname="species">
+</form>
