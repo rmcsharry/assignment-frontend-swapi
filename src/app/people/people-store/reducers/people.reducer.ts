@@ -5,7 +5,6 @@ import {
   SET_CURRENT_PERSON,
   LOAD_PEOPLE_SUCCESS,
   LOAD_PERSON_SUCCESS,
-  SET_PEOPLE_PAGE_NUMBER,
   LOAD_ALL_SUCCESS,
   SET_PEOPLE_FILTER
 } from '../actions/people.actions';
@@ -69,11 +68,6 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         next: action.payload.next,
         previous: action.payload.previous,
       }
-    case SET_PEOPLE_PAGE_NUMBER:
-      return {
-        ...state,
-        page: action.payload.page
-      };
     case SET_PEOPLE_FILTER:
       return {
         ...state,

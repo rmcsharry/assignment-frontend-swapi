@@ -9,8 +9,6 @@ import {
   LOAD_PEOPLE_SUCCESS,
   LoadPerson,
   LOAD_PERSON,
-  LOAD_PERSON_SUCCESS,
-  SetPeoplePageNumer,
   LOAD_ALL_PEOPLE_SUCCESS,
   LoadAllPeople,
   LoadAllPeopleSuccess,
@@ -31,15 +29,13 @@ export class PeopleEffects {
     private store: Store<fromPeople.State>
   ) { }
 
-
   loadAllPeople$ = createEffect(() => this.actions$.pipe(
     ofType<LoadAllPeople>(LOAD_ALL_PEOPLE_SUCCESS),
     mergeMap((data) => this.peopleService.getPeople(data.payload.page).pipe(
       map(apiData => {
         // if (!apiData.next) {
           if (data.payload.page === 2) {
-          // no more pages, so we can now activate page 1
-          this.store.dispatch(new SetPeoplePageNumer({ page: 1 }));
+          // no more pages, so we can now activate
           this.store.dispatch(new LoadAllPeopleSuccess({ totalPages: data.payload.page }));
         }
         else {
@@ -73,7 +69,7 @@ export class PeopleEffects {
   //   })
   // ));
 
-  // TODO: find a better solution, as the below use withLatestFrom, which is not recommended
+  // TODO: find a better solution, as the both of the below use withLatestFrom, which is not recommended
   // see this discussion: https://github.com/ngrx/platform/issues/467
   personRouted$ = createEffect(() => this.actions$.pipe(
     ofType<RouterNavigationAction>(ROUTER_NAVIGATION),

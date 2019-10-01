@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../../people-store/actions/people.actions';
 import * as fromPeople from '../../people-store/reducers/people.reducer';
+import { Person } from '../../models/person.model';
 
 @Component({
   selector: 'sw-people-list',
@@ -16,7 +17,7 @@ import * as fromPeople from '../../people-store/reducers/people.reducer';
 export class PeopleListComponent implements OnInit {
   @Input() numberOfPages: number = 1;
   people$: Observable<fromPeople.PeopleState>;
-  page: number;
+  page: number = 1;
   pageSize = fromPeople.peoplePageSize;
 
   constructor(
@@ -30,7 +31,6 @@ export class PeopleListComponent implements OnInit {
     this.pageService.setPageTitle('Character List');
     this.store.select(fromPeople.getIsAllLoaded).subscribe(
       (allLoaded: boolean) => {
-        console.log('*** DATA is', allLoaded)
         if (allLoaded) {
           this.getPeople();
         };
@@ -41,10 +41,9 @@ export class PeopleListComponent implements OnInit {
   private getPeople(): void {
     this.people$ = this.store.select(fromPeople.getPeopleFiltered).pipe(
       map((state) => {
-        this.page = state.page;
         return {
           count: state.count,
-          results: state.results.slice((state.page * this.pageSize) - this.pageSize, this.pageSize * state.page),
+          results: state.results,
           page: state.page,
           next: state.next,
           previous: state.previous,
@@ -58,12 +57,16 @@ export class PeopleListComponent implements OnInit {
     );
   }
 
+  byPage(people: Person[]): Person[] {
+    return people.slice((this.page * this.pageSize) - this.pageSize, this.pageSize * this.page);
+  }
+
   onNextPage() {
-    this.store.dispatch(new PeopleActions.SetPeoplePageNumer({ page: this.page + 1 }))
+    ++this.page;
   }
 
   onPrevPage() {
-    this.store.dispatch(new PeopleActions.SetPeoplePageNumer({ page: this.page - 1 }))
+    --this.page
   }
 
   onSelectPerson(index: number, url: string) {

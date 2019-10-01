@@ -7,12 +7,12 @@
   <ng-container *ngIf="(people$ | async)?.results?.length > 0; else noResults">
     <p fxFlexAlign="start">{{(people$ | async).count}} total characters</p>
     <mat-nav-list *ngIf="(people$ | async)?.results as people">
-      <a mat-list-item *ngFor="let person of people; let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
+      <a mat-list-item *ngFor="let person of byPage(people); let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
         (click)="onSelectPerson(i, person.url)">
         {{personNumber(i)}} - {{person.name}}
       </a>
     </mat-nav-list>
-    <p class="list-footer" fxFlexAlign="end">Page {{(people$ | async).page}}</p>
+    <p class="list-footer" fxFlexAlign="end">Page {{page}}</p>
   </ng-container>
   <ng-template #noResults>
     <h4>No results</h4>
@@ -24,7 +24,7 @@
     matSuffix aria-label="Next page" (click)="onPrevPage()">
     <mat-icon>arrow_left</mat-icon>Prev
   </button>
-  <button mat-raised-button color="accent" [disabled]="(people$ | async).page === (people$ | async).totalPages"
+  <button mat-raised-button color="accent" [disabled]="page === (people$ | async)?.totalPages"
     matSuffix aria-label="Next page" (click)="onNextPage()">
     Next<mat-icon>arrow_right</mat-icon>
   </button>

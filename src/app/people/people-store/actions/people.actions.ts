@@ -7,7 +7,7 @@ export const LOAD_ALL_PEOPLE_SUCCESS = '[People Paged] LOAD_ALL_PEOPLE_SUCCESS';
 export const LOAD_ALL_SUCCESS = '[People Paged] LOAD_ALL_SUCCESS';
 export const LOAD_PEOPLE_SUCCESS = '[People Paged] LOAD_PEOPLE_SUCCESS';
 export const GET_PAGE_OF_PEOPLE = '[People Paged] GET_PAGE_OF_PEOPLE';
-export const SET_PEOPLE_PAGE_NUMBER = '[People Paged] SET_PEOPLE_PAGE_NUMBER';
+
 export const SET_PEOPLE_FILTER = '[Peoplee Paged] SET_PEOPLE_FILTER';
 
 export const SET_CURRENT_PERSON = '[People] SET_CURRENT_PERSON';
@@ -30,12 +30,6 @@ export class LoadPeopleSuccess implements Action {
   readonly type = LOAD_PEOPLE_SUCCESS;
 
   constructor(public payload: JsonApi<Person>) { }
-}
-
-export class SetPeoplePageNumer implements Action {
-  readonly type = SET_PEOPLE_PAGE_NUMBER;
-
-  constructor(readonly payload: { page: number } ) { }
 }
 
 export class SetPeopleFilter implements Action {
@@ -63,6 +57,5 @@ export class SetCurrentPerson implements Action {
 }
 
 export type PeopleActions =
-  LoadAllPeople | LoadAllPeopleSuccess | LoadPeopleSuccess |
-  SetPeoplePageNumer | SetPeopleFilter |
+  LoadAllPeople | LoadAllPeopleSuccess | LoadPeopleSuccess | SetPeopleFilter |
   LoadPerson | LoadPersonSuccess | SetCurrentPerson;
