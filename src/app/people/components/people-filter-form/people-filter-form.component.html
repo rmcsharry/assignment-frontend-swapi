@@ -5,7 +5,7 @@
         <ngx-mat-select-search [formControl]="speciesFilterCtrl"></ngx-mat-select-search>
       </mat-option>
       <mat-option class="option-none">None</mat-option>
-      <mat-option class="option" *ngFor="let specie of filteredSpecies$ | async" [value]="specie.url">
+      <mat-option class="option" *ngFor="let specie of filteredSpecies$ | async" [value]="specie">
         {{ specie.name }}
       </mat-option>
     </mat-select>
