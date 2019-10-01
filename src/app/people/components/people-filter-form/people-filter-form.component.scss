@@ -1,0 +1,10 @@
+.option-none {
+  color: orange;
+}
+.option {
+  color: #FFE81F;
+}
+.option.mat-option.mat-selected:not(.mat-option-multiple) {
+  background: #37105a !important;
+  color: #d8aeff;
+}

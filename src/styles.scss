@@ -14,6 +14,10 @@ body {
   background: black;
   font-family: "starjedi", "Starjedi";
 }
+input#mat-input-1 {
+  caret-color: $sw-color;
+  color: $sw-color;
+}
 .intro {
   overflow: hidden;
 }
