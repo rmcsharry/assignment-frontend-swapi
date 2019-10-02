@@ -4,6 +4,7 @@ import { Movie } from 'src/app/models/movie';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import * as fromInitData from '../../../store/reducers';
+import * as fromPeople from '../../people-store/reducers/people.reducer';
 import { take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material';
 import { Specie } from 'src/app/models/specie';
@@ -48,6 +49,26 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
         this.filterSpecies();
       });
     this.movies$ = this.store.pipe(select(fromInitData.getMovies));
+    this.store.pipe(select(fromPeople.getPeopleFilters))
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(
+        (filters: fromPeople.PeopleFilter[]) => {
+          this.clearFilters(filters);
+        }
+      );
+  }
+
+  clearFilters(filters: fromPeople.PeopleFilter[]) {
+    filters.forEach((filter) => {
+      switch (filter.type) {
+        case 0:
+          if (filter.value === '') this.filterForm.controls['species'].setValue('');
+        case 1:
+          if (filter.value === '') this.filterForm.controls['movie'].setValue('');
+        case 2:
+          null;
+      };
+    })
   }
 
   ngAfterViewInit() {

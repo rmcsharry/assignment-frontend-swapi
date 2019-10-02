@@ -15,7 +15,19 @@
     <p class="list-footer" fxFlexAlign="end">Page {{page}}</p>
   </ng-container>
   <ng-template #noResults>
-    <h4>No results</h4>
+    <ng-container *ngIf="isAllLoaded">
+      <h4>A message from r2-d2</h4>
+      <ngx-typed-js class="no-data" #typed [startDelay]="400" [showCursor]="false" [backSpeed]="10" [typeSpeed]="50" [fadeOut]="false" [loop]="true" [strings]="['i could not find...', 'the data you were looking for']">
+        <h5 class="typing"></h5>
+      </ngx-typed-js>
+      <button mat-raised-button color="accent"
+        matSuffix aria-label="Reset filters" (click)="onResetFilters()">
+        <mat-icon>settings_backup_restore</mat-icon>&nbsp;Reset Filters
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!isAllLoaded">
+      <h4>No Data</h4>
+    </ng-container>
   </ng-template>
 </section>
 

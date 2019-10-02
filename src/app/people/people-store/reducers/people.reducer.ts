@@ -13,7 +13,6 @@ import * as fromRoot from '../../../store/reducers';
 
 export const peoplePageSize = 10;
 
-
 export const  ENUM_FILTERTYPE_SPECIES = 0,
               ENUM_FILTERTYPE_MOVIE = 1,
               ENUM_FILTERTYPE_YEAR = 2,
@@ -118,9 +117,10 @@ export const selectCurrentPerson = createSelector(getPeople, fromRoot.selectRout
 
 export const getCurrentPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
 export const getCurrentPersonId = createSelector(getPeople, (state: PeopleState) => state.currentPersonId);
-export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId)
+export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
 export const getIsAllLoaded = createSelector(getPeople, (state: PeopleState) => state.allLoaded);
 
+export const getPeopleFilters = createSelector(getPeople, (state: PeopleState) => state.filters);
 export const getPeopleFiltered = createSelector(getPeople, (state: PeopleState) => {
   if (state.filters[0].value === '' && state.filters[1].value === '' && state.filters[2].value === '') {
     return state;

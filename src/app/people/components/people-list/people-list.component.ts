@@ -8,6 +8,7 @@ import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../../people-store/actions/people.actions';
 import * as fromPeople from '../../people-store/reducers/people.reducer';
 import { Person } from '../../models/person.model';
+import {SetPeopleFilter} from '../../people-store/actions/people.actions';
 
 @Component({
   selector: 'sw-people-list',
@@ -19,6 +20,7 @@ export class PeopleListComponent implements OnInit {
   people$: Observable<fromPeople.PeopleState>;
   page: number = 1;
   pageSize = fromPeople.peoplePageSize;
+  isAllLoaded: boolean = false;
 
   constructor(
     private pageService: PageService,
@@ -32,6 +34,7 @@ export class PeopleListComponent implements OnInit {
     this.store.select(fromPeople.getIsAllLoaded).subscribe(
       (allLoaded: boolean) => {
         if (allLoaded) {
+          this.isAllLoaded = true;
           this.getPeople();
         };
       }
@@ -67,6 +70,12 @@ export class PeopleListComponent implements OnInit {
 
   onPrevPage() {
     --this.page
+  }
+
+  onResetFilters() {
+    this.store.dispatch(new SetPeopleFilter({ type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
+    this.store.dispatch(new SetPeopleFilter({ type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
+    this.store.dispatch(new SetPeopleFilter({ type: fromPeople.ENUM_FILTERTYPE_YEAR, value: '' }));
   }
 
   onSelectPerson(index: number, url: string) {
