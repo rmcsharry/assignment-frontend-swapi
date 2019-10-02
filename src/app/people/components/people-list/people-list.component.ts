@@ -42,7 +42,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   private getPeople(): void {
-    this.people$ = this.store.select(fromPeople.getPeopleFiltered).pipe(
+    this.people$ = this.store.select(fromPeople.getPeople).pipe(
       map((state) => {
         return {
           count: state.count,

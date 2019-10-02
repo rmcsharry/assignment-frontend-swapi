@@ -1,15 +1,11 @@
 import { Action } from '@ngrx/store';
 import { Person } from '../../models/person.model';
 import { JsonApi } from '../../../types/json-api.interface';
-import { PeopleFilter } from '../reducers/people.reducer';
 
 export const LOAD_ALL_PEOPLE_SUCCESS = '[People Paged] LOAD_ALL_PEOPLE_SUCCESS';
 export const LOAD_ALL_SUCCESS = '[People Paged] LOAD_ALL_SUCCESS';
 export const LOAD_PEOPLE_SUCCESS = '[People Paged] LOAD_PEOPLE_SUCCESS';
 export const GET_PAGE_OF_PEOPLE = '[People Paged] GET_PAGE_OF_PEOPLE';
-
-export const SET_PEOPLE_FILTER = '[Peoplee Paged] SET_PEOPLE_FILTER';
-export const RESET_PEOPLE_FILTER = '[Peoplee Paged] RESET_PEOPLE_FILTER';
 
 export const SET_CURRENT_PERSON = '[People] SET_CURRENT_PERSON';
 export const LOAD_PERSON = '[People] LOAD_PERSON';
@@ -33,16 +29,6 @@ export class LoadPeopleSuccess implements Action {
   constructor(public payload: JsonApi<Person>) { }
 }
 
-export class SetPeopleFilter implements Action {
-  readonly type = SET_PEOPLE_FILTER;
-
-  constructor(readonly payload: PeopleFilter ) { }
-}
-
-export class ResetPeopleFilter implements Action {
-  readonly type = RESET_PEOPLE_FILTER;
-}
-
 export class LoadPerson implements Action {
   readonly type = LOAD_PERSON;
 
@@ -63,5 +49,4 @@ export class SetCurrentPerson implements Action {
 
 export type PeopleActions =
   LoadAllPeople | LoadAllPeopleSuccess | LoadPeopleSuccess |
-  SetPeopleFilter | ResetPeopleFilter |
   LoadPerson | LoadPersonSuccess | SetCurrentPerson;

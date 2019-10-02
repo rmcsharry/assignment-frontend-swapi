@@ -5,28 +5,13 @@ import {
   SET_CURRENT_PERSON,
   LOAD_PEOPLE_SUCCESS,
   LOAD_PERSON_SUCCESS,
-  LOAD_ALL_SUCCESS,
-  SET_PEOPLE_FILTER,
-  RESET_PEOPLE_FILTER
+  LOAD_ALL_SUCCESS
 } from '../actions/people.actions';
 import { Person } from '../../models/person.model';
 import * as fromRoot from '../../../store/reducers';
 
 export const peoplePageSize = 10;
 
-export const  ENUM_FILTERTYPE_SPECIES = 0,
-              ENUM_FILTERTYPE_MOVIE = 1,
-              ENUM_FILTERTYPE_YEAR = 2,
-              ENUMLEN_FILTERTYPE = 3;
-
-
-export type PeopleFilterType = 'species' | 'films' | 'year';
-
-export interface PeopleFilter {
-  filterType: PeopleFilterType,
-  type: number, // see ENUM_FILTERTYPE
-  value: string
-}
 
 export interface PeopleState {
   results: Person[]
@@ -38,8 +23,6 @@ export interface PeopleState {
   currentPersonId: number
   allLoaded: boolean
   totalPages: number
-  filters: PeopleFilter[],
-  filtersReset: boolean
 }
 
 export interface State extends fromRoot.State {
@@ -56,12 +39,6 @@ const initialState: PeopleState = {
   currentPersonId: 0,
   allLoaded: false,
   totalPages: 0,
-  filters: [
-    { filterType: 'species', type: ENUM_FILTERTYPE_SPECIES, value: ''},
-    { filterType: 'films', type: ENUM_FILTERTYPE_MOVIE, value: ''},
-    { filterType: 'year', type: ENUM_FILTERTYPE_YEAR, value: ''},
-  ],
-  filtersReset: false
 }
 
 export function peopleReducer(state = initialState, action: PeopleActions) {
@@ -74,16 +51,6 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         next: action.payload.next,
         previous: action.payload.previous,
       }
-    case SET_PEOPLE_FILTER:
-      return {
-        ...state,
-        filters: updateFilterState(state.filters, action.payload)
-      };
-    case RESET_PEOPLE_FILTER:
-        return {
-          ...state,
-          filtersReset: true,
-        };
     case LOAD_ALL_SUCCESS:
       return {
         ...state,
@@ -117,12 +84,6 @@ function findPerson(state: PeopleState, index: number): Person | null {
     return state.results[index - 1];
 }
 
-function updateFilterState(filters: PeopleFilter[], newFilter: PeopleFilter) {
-  let newFilters = [...filters];
-  console.log('NEW FILTERS', newFilters)
-  return Object.assign(newFilters, [newFilter]);
-}
-
 export const getPeople = createFeatureSelector<PeopleState>('people')
 export const getPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
 export const selectCurrentPerson = createSelector(getPeople, fromRoot.selectRouteParam('id'), (people, id) => people.results[+id-1]);
@@ -132,39 +93,3 @@ export const getCurrentPersonId = createSelector(getPeople, (state: PeopleState)
 export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
 export const getIsAllLoaded = createSelector(getPeople, (state: PeopleState) => state.allLoaded);
 
-export const getResetPeopleFilter = createSelector(getPeople, (state: PeopleState) => state.filtersReset);
-export const getPeopleFiltered = createSelector(getPeople, (state: PeopleState) => {
-  if (state.filters[0].value === '' && state.filters[1].value === '' && state.filters[2].value === '') {
-    return state;
-  }
-  console.log("FILTER**** IS", state.filters);
-  let filterResults = { people: state.results, count: 0};
-  state.filters.forEach((filter: PeopleFilter) => {
-    if (filter.value !== '') {
-      filterResults = filterPeople(filterResults.people, filter);
-    };
-  });
-  // let filterResults = filterPeople(filterPeople(state.results, state.filters[0]).people, state.filters[1]);
-  return {
-    ...state,
-    count: filterResults.count,
-    results: [...filterResults.people],
-    totalPages: filterResults.count > 0 ? Math.ceil(filterResults.count / peoplePageSize) : 1
-  }
-})
-
-function filterPeople(people: Person[], filter: PeopleFilter): { count: number, people: Person[] } {
-  console.log("FILTER VALUE IS", filter)
-  let filtered = people.filter((person: Person) => {
-    return matchElement(person[filter.filterType], filter.value)
-  });
-  console.log("FILTER RESULT IS", filtered)
-  return { count: filtered.length, people: filtered }
-};
-
-function matchElement(items: string[], element: string): boolean {
-  console.log(items)
-  console.log(element)
-  console.log(items.indexOf(element))
-  return items.indexOf(element) ? false : true
-}
