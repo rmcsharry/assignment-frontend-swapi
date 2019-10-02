@@ -78,6 +78,9 @@ function findPerson(state: PeopleState, swapiId: string): Person | null {
   if (state.results.length === 0) {
     console.warn('NO DATA but tried to set person ', swapiId);
     return null;
-  } else
-    return state.results.find(item => item.url.includes(swapiId))
+  } else {
+      return state.results.find(item => {
+        if (item) return item.url.includes(swapiId);
+      });
+  };
 }
