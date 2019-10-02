@@ -1,9 +1,9 @@
 import {
   PeopleActions,
   SET_CURRENT_PERSON,
-  LOAD_PEOPLE_SUCCESS,
   LOAD_PERSON_SUCCESS,
-  LOAD_ALL_SUCCESS
+  LOAD_ALL_PEOPLE_SUCCESS,
+  LOAD_PAGE_OF_PEOPLE_SUCCESS
 } from '../actions/people.actions';
 import { Person } from '../../models/person.model';
 
@@ -14,7 +14,7 @@ export interface PeopleState {
   previous: string
   page: number
   currentPerson: Person
-  currentPersonId: number
+  currentPersonId: string
   allLoaded: boolean
   totalPages: number
 }
@@ -26,14 +26,14 @@ const initialState: PeopleState = {
   previous: null,
   page: 0,
   currentPerson: null,
-  currentPersonId: 0,
+  currentPersonId: '',
   allLoaded: false,
   totalPages: 0,
 }
 
 export function peopleReducer(state = initialState, action: PeopleActions) {
   switch (action.type) {
-    case LOAD_PEOPLE_SUCCESS:
+    case LOAD_PAGE_OF_PEOPLE_SUCCESS:
       return {
         ...state,
         results: [...state.results, ...action.payload.results],
@@ -41,7 +41,7 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         next: action.payload.next,
         previous: action.payload.previous,
       }
-    case LOAD_ALL_SUCCESS:
+    case LOAD_ALL_PEOPLE_SUCCESS:
       return {
         ...state,
         allLoaded: true,
@@ -50,14 +50,14 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
     case SET_CURRENT_PERSON:
       return {
         ...state,
-        currentPerson: findPerson(state, action.payload.internalId),
-        currentPersonId: action.payload.internalId
+        currentPerson: findPerson(state, action.payload.swapiId),
+        currentPersonId: action.payload.swapiId
       };
     case LOAD_PERSON_SUCCESS:
       return {
         ...state,
         currentPerson: action.payload.person,
-        currentPersonId: action.payload.id
+        currentPersonId: action.payload.swapiId
       };
     default:
       return state;
@@ -66,10 +66,18 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
 
 // export const peopleFeatureKey = 'people';
 
-function findPerson(state: PeopleState, index: number): Person | null {
+// function findPerson(state: PeopleState, index: number): Person | null {
+//   if (state.results.length === 0) {
+//     console.warn('NO DATA but tried to set person ', index);
+//     return null;
+//   } else
+//     return state.results[index - 1];
+// }
+
+function findPerson(state: PeopleState, swapiId: string): Person | null {
   if (state.results.length === 0) {
-    console.warn('NO DATA but tried to set person ', index);
+    console.warn('NO DATA but tried to set person ', swapiId);
     return null;
   } else
-    return state.results[index - 1];
+    return state.results.find(item => item.url.includes(swapiId))
 }

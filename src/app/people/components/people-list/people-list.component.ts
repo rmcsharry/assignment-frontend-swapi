@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../../people-store/actions/people.actions';
@@ -42,7 +42,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   private getPeople(): void {
-    this.people$ = this.store.select(fromPeople.getPeople).pipe(
+    this.people$ = this.store.select(fromPeople.getPeople).pipe(take(1),
       map((state) => {
         return {
           count: state.people.count,
@@ -79,7 +79,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   onSelectPerson(index: number, url: string) {
-    this.store.dispatch(new PeopleActions.SetCurrentPerson({ internalId: this.personNumber(index) }));
+    this.store.dispatch(new PeopleActions.SetCurrentPerson({ swapiId: this.personUrlId(url) }));
     this.router.navigate(['characters', this.personNumber(index)], { queryParams: { swapiId: this.personUrlId(url) }})
   }
 

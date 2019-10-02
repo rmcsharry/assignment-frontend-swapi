@@ -6,13 +6,13 @@ import { Store, select } from '@ngrx/store';
 
 import { PeopleService } from '../../services/people.service';
 import {
-  LOAD_PEOPLE_SUCCESS,
+  LOAD_PAGE_OF_PEOPLE_SUCCESS,
   LoadPerson,
   LOAD_PERSON,
-  LOAD_ALL_PEOPLE_SUCCESS,
-  LoadAllPeople,
+  LoadPageOfPeople,
   LoadAllPeopleSuccess,
   LoadPersonSuccess,
+  LOAD_PAGE_OF_PEOPLE,
 } from '../actions/people.actions';
 
 import * as fromPeople from '../reducers/index'
@@ -30,18 +30,18 @@ export class PeopleEffects {
   ) { }
 
   loadAllPeople$ = createEffect(() => this.actions$.pipe(
-    ofType<LoadAllPeople>(LOAD_ALL_PEOPLE_SUCCESS),
+    ofType<LoadPageOfPeople>(LOAD_PAGE_OF_PEOPLE),
     mergeMap((data) => this.peopleService.getPeople(data.payload.page).pipe(
       map(apiData => {
-        if (!apiData.next) {
-          // if (data.payload.page === 2) {
+        // if (!apiData.next) {
+          if (data.payload.page === 2) {
           // no more pages, so we can now activate
           this.store.dispatch(new LoadAllPeopleSuccess({ totalPages: data.payload.page }));
         }
         else {
-          this.store.dispatch(new LoadAllPeople({ page: data.payload.page + 1 }))
+          this.store.dispatch(new LoadPageOfPeople({ page: data.payload.page + 1 }))
         };
-        return ({ type: LOAD_PEOPLE_SUCCESS, payload: apiData })
+        return ({ type: LOAD_PAGE_OF_PEOPLE_SUCCESS, payload: apiData })
       }),
       catchError(() => EMPTY)
     ))
@@ -81,7 +81,7 @@ export class PeopleEffects {
         withLatestFrom(
           this.store.pipe(select(fromRoot.selectRouteParam('id')))
         ),
-        map(routeData => new LoadPerson({ internalId: +routeData[1] })),
+        map(routeData => new LoadPerson({ swapiId: routeData[1] })),
         catchError(() => EMPTY)
       ))
   ));
@@ -94,11 +94,11 @@ export class PeopleEffects {
     ),
     filter(([action, currentPersonId, swapiId]) => {
       console.log('**ID CHECK**', currentPersonId, swapiId)
-      return currentPersonId !== action.payload.internalId
+      return currentPersonId !== action.payload.swapiId
     }),
     mergeMap(([action, _, swapiId]) => this.peopleService.getPerson(+swapiId)
       .pipe(
-        map(apiData => new LoadPersonSuccess({ person: apiData, id: action.payload.internalId } )),
+        map(apiData => new LoadPersonSuccess({ person: apiData, swapiId: action.payload.swapiId } )),
         catchError(() => EMPTY)
       ))
     )
