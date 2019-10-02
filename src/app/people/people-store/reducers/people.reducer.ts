@@ -37,7 +37,7 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
       return {
         ...state,
         results: [...state.results, ...action.payload.results],
-        count: action.payload.count,
+        count: state.count + action.payload.results.length,
         next: action.payload.next,
         previous: action.payload.previous,
       }
