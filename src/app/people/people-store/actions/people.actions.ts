@@ -9,6 +9,7 @@ export const LOAD_PEOPLE_SUCCESS = '[People Paged] LOAD_PEOPLE_SUCCESS';
 export const GET_PAGE_OF_PEOPLE = '[People Paged] GET_PAGE_OF_PEOPLE';
 
 export const SET_PEOPLE_FILTER = '[Peoplee Paged] SET_PEOPLE_FILTER';
+export const RESET_PEOPLE_FILTER = '[Peoplee Paged] RESET_PEOPLE_FILTER';
 
 export const SET_CURRENT_PERSON = '[People] SET_CURRENT_PERSON';
 export const LOAD_PERSON = '[People] LOAD_PERSON';
@@ -38,6 +39,10 @@ export class SetPeopleFilter implements Action {
   constructor(readonly payload: PeopleFilter ) { }
 }
 
+export class ResetPeopleFilter implements Action {
+  readonly type = RESET_PEOPLE_FILTER;
+}
+
 export class LoadPerson implements Action {
   readonly type = LOAD_PERSON;
 
@@ -57,5 +62,6 @@ export class SetCurrentPerson implements Action {
 }
 
 export type PeopleActions =
-  LoadAllPeople | LoadAllPeopleSuccess | LoadPeopleSuccess | SetPeopleFilter |
+  LoadAllPeople | LoadAllPeopleSuccess | LoadPeopleSuccess |
+  SetPeopleFilter | ResetPeopleFilter |
   LoadPerson | LoadPersonSuccess | SetCurrentPerson;

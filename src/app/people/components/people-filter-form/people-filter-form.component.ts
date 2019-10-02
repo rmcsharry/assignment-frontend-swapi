@@ -49,26 +49,18 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
         this.filterSpecies();
       });
     this.movies$ = this.store.pipe(select(fromInitData.getMovies));
-    this.store.pipe(select(fromPeople.getPeopleFilters))
+    this.store.pipe(select(fromPeople.getResetPeopleFilter))
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
-        (filters: fromPeople.PeopleFilter[]) => {
-          this.clearFilters(filters);
+        (result) => {
+          if (result) this.clearFilters();
         }
       );
   }
 
-  clearFilters(filters: fromPeople.PeopleFilter[]) {
-    filters.forEach((filter) => {
-      switch (filter.type) {
-        case 0:
-          if (filter.value === '') this.filterForm.controls['species'].setValue('');
-        case 1:
-          if (filter.value === '') this.filterForm.controls['movie'].setValue('');
-        case 2:
-          null;
-      };
-    })
+  clearFilters() {
+    this.filterForm.controls['species'].setValue('');
+    this.filterForm.controls['movie'].setValue('');
   }
 
   ngAfterViewInit() {
@@ -89,9 +81,16 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
 
   onSpeciesSelected(data: Specie) {
     if (!data)
-      this.store.dispatch(new SetPeopleFilter({ type: ENUM_FILTERTYPE_SPECIES, value: '' }));
+      this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
     else
-      this.store.dispatch(new SetPeopleFilter({ type: ENUM_FILTERTYPE_SPECIES, value: data.url }));
+      this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: data.url }));
+  }
+
+  onMovieSelected(data: Movie) {
+    if (!data)
+      this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
+    else
+      this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: data.url }));
   }
 
   protected setCompareFunction() {

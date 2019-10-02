@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -54,7 +54,8 @@ export class PeopleListComponent implements OnInit {
           currentPersonId: state.currentPersonId,
           allLoaded: state.allLoaded,
           totalPages: state.totalPages,
-          filters: state.filters
+          filters: state.filters,
+          filtersReset: state.filtersReset
         };
       })
     );
@@ -73,9 +74,10 @@ export class PeopleListComponent implements OnInit {
   }
 
   onResetFilters() {
-    this.store.dispatch(new SetPeopleFilter({ type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
-    this.store.dispatch(new SetPeopleFilter({ type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
-    this.store.dispatch(new SetPeopleFilter({ type: fromPeople.ENUM_FILTERTYPE_YEAR, value: '' }));
+    this.store.dispatch(new PeopleActions.ResetPeopleFilter());
+    this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
+    this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
+    this.store.dispatch(new SetPeopleFilter({ filterType: 'year', type: fromPeople.ENUM_FILTERTYPE_YEAR, value: '' }));
   }
 
   onSelectPerson(index: number, url: string) {

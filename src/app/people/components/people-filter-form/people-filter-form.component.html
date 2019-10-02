@@ -11,9 +11,9 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-select placeholder="Select a movie" formControlName="movie" [(value)]="selectedMovie">
+    <mat-select placeholder="Select a movie" formControlName="movie"  (selectionChange)="onMovieSelected($event.value)">
       <mat-option class="option-none">None</mat-option>
-      <mat-option class="option" *ngFor="let movie of movies$ | async" [value]="movie.url">
+      <mat-option class="option" *ngFor="let movie of movies$ | async" [value]="movie">
         {{ movie.title }}
       </mat-option>
     </mat-select>

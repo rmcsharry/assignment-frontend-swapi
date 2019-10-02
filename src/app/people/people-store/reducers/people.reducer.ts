@@ -6,7 +6,8 @@ import {
   LOAD_PEOPLE_SUCCESS,
   LOAD_PERSON_SUCCESS,
   LOAD_ALL_SUCCESS,
-  SET_PEOPLE_FILTER
+  SET_PEOPLE_FILTER,
+  RESET_PEOPLE_FILTER
 } from '../actions/people.actions';
 import { Person } from '../../models/person.model';
 import * as fromRoot from '../../../store/reducers';
@@ -18,7 +19,11 @@ export const  ENUM_FILTERTYPE_SPECIES = 0,
               ENUM_FILTERTYPE_YEAR = 2,
               ENUMLEN_FILTERTYPE = 3;
 
+
+export type PeopleFilterType = 'species' | 'films' | 'year';
+
 export interface PeopleFilter {
+  filterType: PeopleFilterType,
   type: number, // see ENUM_FILTERTYPE
   value: string
 }
@@ -33,7 +38,8 @@ export interface PeopleState {
   currentPersonId: number
   allLoaded: boolean
   totalPages: number
-  filters: PeopleFilter[]
+  filters: PeopleFilter[],
+  filtersReset: boolean
 }
 
 export interface State extends fromRoot.State {
@@ -51,10 +57,11 @@ const initialState: PeopleState = {
   allLoaded: false,
   totalPages: 0,
   filters: [
-    { type: ENUM_FILTERTYPE_SPECIES, value: ''},
-    { type: ENUM_FILTERTYPE_MOVIE, value: ''},
-    { type: ENUM_FILTERTYPE_YEAR, value: ''},
-  ]
+    { filterType: 'species', type: ENUM_FILTERTYPE_SPECIES, value: ''},
+    { filterType: 'films', type: ENUM_FILTERTYPE_MOVIE, value: ''},
+    { filterType: 'year', type: ENUM_FILTERTYPE_YEAR, value: ''},
+  ],
+  filtersReset: false
 }
 
 export function peopleReducer(state = initialState, action: PeopleActions) {
@@ -72,6 +79,11 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         ...state,
         filters: updateFilterState(state.filters, action.payload)
       };
+    case RESET_PEOPLE_FILTER:
+        return {
+          ...state,
+          filtersReset: true,
+        };
     case LOAD_ALL_SUCCESS:
       return {
         ...state,
@@ -120,13 +132,19 @@ export const getCurrentPersonId = createSelector(getPeople, (state: PeopleState)
 export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
 export const getIsAllLoaded = createSelector(getPeople, (state: PeopleState) => state.allLoaded);
 
-export const getPeopleFilters = createSelector(getPeople, (state: PeopleState) => state.filters);
+export const getResetPeopleFilter = createSelector(getPeople, (state: PeopleState) => state.filtersReset);
 export const getPeopleFiltered = createSelector(getPeople, (state: PeopleState) => {
   if (state.filters[0].value === '' && state.filters[1].value === '' && state.filters[2].value === '') {
     return state;
   }
   console.log("FILTER**** IS", state.filters);
-  let filterResults = filterPeople(state.results, state.filters[0].value);
+  let filterResults = { people: state.results, count: 0};
+  state.filters.forEach((filter: PeopleFilter) => {
+    if (filter.value !== '') {
+      filterResults = filterPeople(filterResults.people, filter);
+    };
+  });
+  // let filterResults = filterPeople(filterPeople(state.results, state.filters[0]).people, state.filters[1]);
   return {
     ...state,
     count: filterResults.count,
@@ -135,10 +153,10 @@ export const getPeopleFiltered = createSelector(getPeople, (state: PeopleState) 
   }
 })
 
-function filterPeople(people: Person[], filterValue: string): { count: number, people: Person[] } {
-  console.log("FILTER VALUE IS", filterValue)
-  let filtered = people.filter(person => {
-    return matchElement(person.species, filterValue)
+function filterPeople(people: Person[], filter: PeopleFilter): { count: number, people: Person[] } {
+  console.log("FILTER VALUE IS", filter)
+  let filtered = people.filter((person: Person) => {
+    return matchElement(person[filter.filterType], filter.value)
   });
   console.log("FILTER RESULT IS", filtered)
   return { count: filtered.length, people: filtered }
