@@ -2,8 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
   SET_PEOPLE_FILTER,
-  RESET_PEOPLE_FILTER,
-  FilterActions
+  RESET_PEOPLE_FILTERS,
+  FilterActions,
+  SET_PEOPLE_SPECIES_FILTER
 } from '../actions/filter.actions';
 import * as fromRoot from '../../../store/reducers';
 
@@ -21,7 +22,8 @@ export interface PeopleFilter {
 }
 
 export interface PeopleFilterState {
-  filters: PeopleFilter[]
+  speciesFilter: string
+  moviesFilter: string
   filtersReset: boolean
 }
 
@@ -30,22 +32,19 @@ export interface State extends fromRoot.State {
 }
 
 const initialState: PeopleFilterState = {
-  filters: [
-    { filterType: 'species', type: ENUM_FILTERTYPE_SPECIES, value: '' },
-    { filterType: 'films', type: ENUM_FILTERTYPE_MOVIE, value: '' },
-    { filterType: 'year', type: ENUM_FILTERTYPE_YEAR, value: '' },
-  ],
+  speciesFilter: '',
+  moviesFilter: '',
   filtersReset: false
 }
 
 export function filterReducer(state = initialState, action: FilterActions) {
   switch (action.type) {
-    case SET_PEOPLE_FILTER:
+    case SET_PEOPLE_SPECIES_FILTER:
       return {
         ...state,
-        filters: updateFilterState(state.filters, action.payload.filter)
+        speciesFilter: action.payload.filterValue
       };
-    case RESET_PEOPLE_FILTER:
+    case RESET_PEOPLE_FILTERS:
       return {
         ...state,
         filtersReset: true,
@@ -61,8 +60,6 @@ function updateFilterState(filters: PeopleFilter[], newFilter: PeopleFilter) {
   return Object.assign(newFilters, [newFilter]);
 }
 
-export const getPeopleFilters = createFeatureSelector<PeopleFilterState>('peopleFilters')
-export const getResetPeopleFilter = createSelector(getPeopleFilters, (state: PeopleFilterState) => state.filtersReset);
 
 // export const getPeopleFiltered = createSelector(getPeople, (state: PeopleState) => {
 //   if (state.filters[0].value === '' && state.filters[1].value === '' && state.filters[2].value === '') {

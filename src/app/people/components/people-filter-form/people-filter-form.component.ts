@@ -1,15 +1,18 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { Movie } from 'src/app/models/movie';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import * as fromInitData from '../../../store/reducers';
-import * as fromPeople from '../../people-store/reducers/people.reducer';
 import { take, takeUntil } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
 import { MatSelect } from '@angular/material';
+
+import * as fromInitData from '../../../store/reducers';
+import * as fromPeople from '../../people-store/reducers/index';
+import * as fromFilter from '../../people-store/reducers/filter.reducer';
+
 import { Specie } from 'src/app/models/specie';
-import { SetPeopleFilter } from '../../people-store/actions/people.actions';
-import { ENUM_FILTERTYPE_SPECIES } from '../../people-store/reducers/people.reducer';
+import { Movie } from 'src/app/models/movie';
+import { SetPeopleFilter, SetPeopleSpeciesFilter } from '../../people-store/actions/filter.actions';
+import { ENUM_FILTERTYPE_SPECIES } from '../../people-store/reducers/filter.reducer';
 
 @Component({
   selector: 'sw-people-filter-form',
@@ -81,16 +84,18 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
 
   onSpeciesSelected(data: Specie) {
     if (!data)
-      this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
+      this.store.dispatch(new SetPeopleSpeciesFilter({ filterValue: '' }));
+      // this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'species', type: fromFilter.ENUM_FILTERTYPE_SPECIES, value: '' } }));
     else
-      this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: data.url }));
+      this.store.dispatch(new SetPeopleSpeciesFilter({ filterValue: data.url }));
+      // this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'species', type: fromFilter.ENUM_FILTERTYPE_SPECIES, value: data.url } }));
   }
 
   onMovieSelected(data: Movie) {
     if (!data)
-      this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
+      this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'films', type: fromFilter.ENUM_FILTERTYPE_MOVIE, value: '' } }));
     else
-      this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: data.url }));
+      this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'films', type: fromFilter.ENUM_FILTERTYPE_MOVIE, value: data.url } }));
   }
 
   protected setCompareFunction() {

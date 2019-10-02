@@ -6,9 +6,9 @@ import { map } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../../people-store/actions/people.actions';
-import * as fromPeople from '../../people-store/reducers/people.reducer';
+import * as fromPeople from '../../people-store/reducers/index';
 import { Person } from '../../models/person.model';
-import {SetPeopleFilter} from '../../people-store/actions/people.actions';
+import { PeopleState } from '../../people-store/reducers/people.reducer';
 
 @Component({
   selector: 'sw-people-list',
@@ -17,14 +17,14 @@ import {SetPeopleFilter} from '../../people-store/actions/people.actions';
 })
 export class PeopleListComponent implements OnInit {
   @Input() numberOfPages: number = 1;
-  people$: Observable<fromPeople.PeopleState>;
+  people$: Observable<PeopleState>;
   page: number = 1;
   pageSize = fromPeople.peoplePageSize;
   isAllLoaded: boolean = false;
 
   constructor(
     private pageService: PageService,
-    private store: Store<fromPeople.PeopleState>,
+    private store: Store<fromPeople.LazyPeopleState>,
     private router: Router,
   ) {
   }
@@ -45,17 +45,15 @@ export class PeopleListComponent implements OnInit {
     this.people$ = this.store.select(fromPeople.getPeople).pipe(
       map((state) => {
         return {
-          count: state.count,
-          results: state.results,
-          page: state.page,
-          next: state.next,
-          previous: state.previous,
-          currentPerson: state.currentPerson,
-          currentPersonId: state.currentPersonId,
-          allLoaded: state.allLoaded,
-          totalPages: state.totalPages,
-          filters: state.filters,
-          filtersReset: state.filtersReset
+          count: state.people.count,
+          results: state.people.results,
+          page: state.people.page,
+          next: state.people.next,
+          previous: state.people.previous,
+          currentPerson: state.people.currentPerson,
+          currentPersonId: state.people.currentPersonId,
+          allLoaded: state.people.allLoaded,
+          totalPages: state.people.totalPages,
         };
       })
     );
@@ -74,10 +72,10 @@ export class PeopleListComponent implements OnInit {
   }
 
   onResetFilters() {
-    this.store.dispatch(new PeopleActions.ResetPeopleFilter());
-    this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
-    this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
-    this.store.dispatch(new SetPeopleFilter({ filterType: 'year', type: fromPeople.ENUM_FILTERTYPE_YEAR, value: '' }));
+    // this.store.dispatch(new PeopleActions.ResetPeopleFilter());
+    // this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
+    // this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
+    // this.store.dispatch(new SetPeopleFilter({ filterType: 'year', type: fromPeople.ENUM_FILTERTYPE_YEAR, value: '' }));
   }
 
   onSelectPerson(index: number, url: string) {

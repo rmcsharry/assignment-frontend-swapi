@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 import { Person } from '../../models/person.model';
-import * as fromPeople from '../../people-store/reducers/people.reducer';
+import * as fromPeople from '../../people-store/reducers/index';
 import * as fromInitData from '../../../store/reducers';
 
 @Component({

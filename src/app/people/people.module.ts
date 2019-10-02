@@ -13,12 +13,11 @@ import { PeopleTableComponent } from './components/people-table/people-table.com
 import { PeopleComponent } from './components/people/people.component';
 import { PersonComponent } from './components/person/person.component';
 
-import { peopleReducer } from './people-store/reducers/people.reducer';
 import { PeopleEffects } from './people-store/effects/people.effects';
 import { LoaderComponent } from '../loader/loader.component';
 import { PeopleFilterFormComponent } from './components/people-filter-form/people-filter-form.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { PeopleFilterPipe } from './pipes/people-filter.pipe';
+import { peopleReducers } from './people-store/reducers/index';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { PeopleFilterPipe } from './pipes/people-filter.pipe';
     PersonComponent,
     LoaderComponent,
     PeopleFilterFormComponent,
-    PeopleFilterPipe
   ],
   imports: [
     CommonModule,
@@ -36,7 +34,7 @@ import { PeopleFilterPipe } from './pipes/people-filter.pipe';
     CustomMaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('people', peopleReducer),
+    StoreModule.forFeature('lazyPeople', peopleReducers),
     EffectsModule.forFeature([PeopleEffects]),
     NgxTypedJsModule,
     NgxMatSelectSearchModule

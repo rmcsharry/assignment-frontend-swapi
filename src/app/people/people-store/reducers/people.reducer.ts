@@ -1,5 +1,3 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import {
   PeopleActions,
   SET_CURRENT_PERSON,
@@ -8,10 +6,6 @@ import {
   LOAD_ALL_SUCCESS
 } from '../actions/people.actions';
 import { Person } from '../../models/person.model';
-import * as fromRoot from '../../../store/reducers';
-
-export const peoplePageSize = 10;
-
 
 export interface PeopleState {
   results: Person[]
@@ -23,10 +17,6 @@ export interface PeopleState {
   currentPersonId: number
   allLoaded: boolean
   totalPages: number
-}
-
-export interface State extends fromRoot.State {
-  people: PeopleState
 }
 
 const initialState: PeopleState = {
@@ -83,13 +73,3 @@ function findPerson(state: PeopleState, index: number): Person | null {
   } else
     return state.results[index - 1];
 }
-
-export const getPeople = createFeatureSelector<PeopleState>('people')
-export const getPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
-export const selectCurrentPerson = createSelector(getPeople, fromRoot.selectRouteParam('id'), (people, id) => people.results[+id-1]);
-
-export const getCurrentPerson = createSelector(getPeople, (state: PeopleState) => state.currentPerson);
-export const getCurrentPersonId = createSelector(getPeople, (state: PeopleState) => state.currentPersonId);
-export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
-export const getIsAllLoaded = createSelector(getPeople, (state: PeopleState) => state.allLoaded);
-

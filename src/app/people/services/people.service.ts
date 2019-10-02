@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Person } from '../models/person.model';
 import { JsonApi } from '../../types/json-api.interface';
-import * as fromPeople from '../people-store/reducers/people.reducer';
+import * as fromPeople from '../people-store/reducers/index';
 import { Store } from '@ngrx/store';
 
 const PEOPLE_ENDPOINT = 'people';

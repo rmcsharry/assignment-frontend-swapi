@@ -15,7 +15,7 @@ import {
   LoadPersonSuccess,
 } from '../actions/people.actions';
 
-import * as fromPeople from '../reducers/people.reducer'
+import * as fromPeople from '../reducers/index'
 import * as fromRoot from '../../../store/reducers';
 
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
@@ -26,7 +26,7 @@ export class PeopleEffects {
   constructor(
     private actions$: Actions,
     private peopleService: PeopleService,
-    private store: Store<fromPeople.State>
+    private store: Store<fromRoot.State>
   ) { }
 
   loadAllPeople$ = createEffect(() => this.actions$.pipe(
