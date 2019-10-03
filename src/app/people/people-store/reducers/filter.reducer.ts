@@ -47,6 +47,8 @@ export function filterReducer(state = initialState, action: FilterActions) {
     case RESET_PEOPLE_FILTERS:
       return {
         ...state,
+        speciesFilter: '',
+        moviesFilter: '',
         filtersReset: true,
       };
     default:

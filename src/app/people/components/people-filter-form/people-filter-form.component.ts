@@ -74,8 +74,8 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   clearFilters() {
-    this.filterForm.controls['species'].setValue('');
-    this.filterForm.controls['movie'].setValue('');
+    // this.filterForm.controls['species'].setValue('');
+    // this.filterForm.controls['movie'].setValue('');
   }
 
   ngAfterViewInit() {
