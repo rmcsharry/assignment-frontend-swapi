@@ -76,7 +76,7 @@ export class PeopleEffects {
     filter((action: RouterNavigationAction<any>) => {
       return action.payload.event.url.includes('/characters/')
     }),
-    mergeMap((action) => of(null)
+    mergeMap((_) => of(null)
       .pipe(
         withLatestFrom(
           this.store.pipe(select(fromRoot.selectQueryParam('swapiId')))
@@ -91,7 +91,7 @@ export class PeopleEffects {
     withLatestFrom(
       this.store.pipe(select(fromPeople.getCurrentPersonId)),
     ),
-    filter(([action, currentPersonId]) => currentPersonId === ''),
+    filter(([_, currentPersonId]) => currentPersonId === ''),
     mergeMap(([action, _]) => this.peopleService.getPerson(+action.payload.swapiId)
       .pipe(
         map(apiData => new LoadPersonSuccess({ person: apiData, swapiId: action.payload.swapiId } )),

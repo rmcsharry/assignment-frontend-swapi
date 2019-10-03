@@ -6,9 +6,11 @@ import { map, take, switchMap, concatMap } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../../people-store/actions/people.actions';
+import * as FilterActions from '../../people-store/actions/filter.actions';
 import * as fromPeople from '../../people-store/reducers/index';
 import { Person } from '../../models/person.model';
 import { PeopleState } from '../../people-store/reducers/people.reducer';
+import { PeopleFilter, PeopleFilterState } from '../../people-store/reducers/filter.reducer';
 
 @Component({
   selector: 'sw-people-list',
@@ -40,11 +42,16 @@ export class PeopleListComponent implements OnInit {
         };
       }
     );
-    this.store.select(fromPeople.getSpeciesFilters).subscribe(
-      (value: string) => {
+    this.store.select(fromPeople.getPeopleFilters).subscribe(
+      (state: PeopleFilterState) => {
         console.log('SPECIES STATE TRIGGERED')
-        if (this.peopleFiltered$)
-          this.peopleFiltered$ = this.filterPeople('species', value);
+        if (this.peopleFiltered$) {
+          if (state.speciesFilter !== '')
+            this.peopleFiltered$ = this.filterPeople('species', state.speciesFilter);
+          else
+            this.peopleFiltered$ = this.people$;
+        }
+
       }
     );
     // this.peopleFiltered$ = this.store.select(fromPeople.getSpeciesFilters)
@@ -96,7 +103,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   onResetFilters() {
-    // this.store.dispatch(new PeopleActions.ResetPeopleFilter());
+    this.store.dispatch(new FilterActions.ResetPeopleFilter());
     // this.store.dispatch(new SetPeopleFilter({ filterType: 'species', type: fromPeople.ENUM_FILTERTYPE_SPECIES, value: '' }));
     // this.store.dispatch(new SetPeopleFilter({ filterType: 'films', type: fromPeople.ENUM_FILTERTYPE_MOVIE, value: '' }));
     // this.store.dispatch(new SetPeopleFilter({ filterType: 'year', type: fromPeople.ENUM_FILTERTYPE_YEAR, value: '' }));
