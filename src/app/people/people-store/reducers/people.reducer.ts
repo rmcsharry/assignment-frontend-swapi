@@ -10,8 +10,6 @@ import { Person } from '../../models/person.model';
 export interface PeopleState {
   results: Person[]
   count: number
-  next: string
-  previous: string
   page: number
   currentPerson: Person
   currentPersonId: string
@@ -22,8 +20,6 @@ export interface PeopleState {
 const initialState: PeopleState = {
   results: [],
   count: 0,
-  next: null,
-  previous: null,
   page: 0,
   currentPerson: null,
   currentPersonId: '',
@@ -38,8 +34,6 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
         ...state,
         results: [...state.results, ...action.payload.results],
         count: state.count + action.payload.results.length,
-        next: action.payload.next,
-        previous: action.payload.previous,
       }
     case LOAD_ALL_PEOPLE_SUCCESS:
       return {

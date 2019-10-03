@@ -48,8 +48,6 @@ export class PeopleListComponent implements OnInit {
           count: state.people.count,
           results: state.people.results,
           page: state.people.page,
-          next: state.people.next,
-          previous: state.people.previous,
           currentPerson: state.people.currentPerson,
           currentPersonId: state.people.currentPersonId,
           allLoaded: state.people.allLoaded,
