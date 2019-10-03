@@ -25,13 +25,17 @@ export const peopleReducers: ActionReducerMap<LazyPeopleState> = {
   filters: fromFilter.filterReducer,
 };
 
-export const getPeople = createFeatureSelector<LazyPeopleState>('lazyPeople')
-export const getPerson = createSelector(getPeople, (state: LazyPeopleState) => state.people.currentPerson);
-export const selectCurrentPerson = createSelector(getPeople, fromRoot.selectRouteParam('id'), (state, id) => state.people.results[+id-1]);
+export const getLazyPeople = createFeatureSelector<LazyPeopleState>('lazyPeople')
+export const getPerson = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people.currentPerson);
+export const selectCurrentPerson = createSelector(getLazyPeople, fromRoot.selectRouteParam('id'), (state, id) => state.people.results[+id-1]);
 
-export const getCurrentPerson = createSelector(getPeople, (state: LazyPeopleState) => state.people.currentPerson);
-export const getCurrentPersonId = createSelector(getPeople, (state: LazyPeopleState) => state.people.currentPersonId);
-export const getCurrentPersonSwapiId = createSelector(getPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
-export const getIsAllLoaded = createSelector(getPeople, (state: LazyPeopleState) => state.people.allLoaded);
+export const getCurrentPerson = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people.currentPerson);
+export const getCurrentPersonId = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people.currentPersonId);
+export const getCurrentPersonSwapiId = createSelector(getLazyPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
+export const getIsAllLoaded = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people.allLoaded);
 
-export const getResetPeopleFilter = createSelector(getPeople, (state: LazyPeopleState) => state.filters.filtersReset);
+export const getResetPeopleFilter = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.filtersReset);
+export const getSpeciesFilters = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.speciesFilter);
+export const getMoviesFilters = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.moviesFilter);
+
+export const getPeople = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people);

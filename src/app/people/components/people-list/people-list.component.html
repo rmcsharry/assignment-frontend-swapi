@@ -4,9 +4,9 @@
 </section>
 
 <section class="list-items-container" fxLayout="column" fxLayoutAlign="space-start center">
-  <ng-container *ngIf="(people$ | async)?.results?.length > 0; else noResults">
-    <p fxFlexAlign="start">{{(people$ | async).count}} total characters</p>
-    <mat-nav-list *ngIf="(people$ | async)?.results as people">
+  <ng-container *ngIf="(peopleFiltered$ | async)?.results?.length > 0; else noResults">
+    <p fxFlexAlign="start">{{(peopleFiltered$ | async).count}} characters</p>
+    <mat-nav-list *ngIf="(peopleFiltered$ | async)?.results as people">
       <a mat-list-item *ngFor="let person of byPage(people); let odd=odd; let i=index;" [style.border-color]="odd? 'white':'transparent'"
         (click)="onSelectPerson(i, person.url)">
         {{personNumber(i)}} - {{person.name}}

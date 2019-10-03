@@ -79,7 +79,7 @@ export class PeopleEffects {
     mergeMap((action) => of(null)
       .pipe(
         withLatestFrom(
-          this.store.pipe(select(fromRoot.selectRouteParam('id')))
+          this.store.pipe(select(fromRoot.selectQueryParam('swapiId')))
         ),
         map(routeData => new LoadPerson({ swapiId: routeData[1] })),
         catchError(() => EMPTY)
@@ -90,13 +90,9 @@ export class PeopleEffects {
     ofType<LoadPerson>(LOAD_PERSON),
     withLatestFrom(
       this.store.pipe(select(fromPeople.getCurrentPersonId)),
-      this.store.pipe(select(fromPeople.getCurrentPersonSwapiId))
     ),
-    filter(([action, currentPersonId, swapiId]) => {
-      console.log('**ID CHECK**', currentPersonId, swapiId)
-      return currentPersonId !== action.payload.swapiId
-    }),
-    mergeMap(([action, _, swapiId]) => this.peopleService.getPerson(+swapiId)
+    filter(([action, currentPersonId]) => currentPersonId === ''),
+    mergeMap(([action, _]) => this.peopleService.getPerson(+action.payload.swapiId)
       .pipe(
         map(apiData => new LoadPersonSuccess({ person: apiData, swapiId: action.payload.swapiId } )),
         catchError(() => EMPTY)

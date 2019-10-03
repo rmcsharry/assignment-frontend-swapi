@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { map, take } from 'rxjs/operators';
+import { map, take, switchMap, concatMap } from 'rxjs/operators';
 
 import { PageService } from 'src/app/services/page.service';
 import * as PeopleActions from '../../people-store/actions/people.actions';
@@ -18,6 +18,7 @@ import { PeopleState } from '../../people-store/reducers/people.reducer';
 export class PeopleListComponent implements OnInit {
   @Input() numberOfPages: number = 1;
   people$: Observable<PeopleState>;
+  peopleFiltered$: Observable<PeopleState>;
   page: number = 1;
   pageSize = fromPeople.peoplePageSize;
   isAllLoaded: boolean = false;
@@ -39,22 +40,47 @@ export class PeopleListComponent implements OnInit {
         };
       }
     );
+    this.store.select(fromPeople.getSpeciesFilters).subscribe(
+      (value: string) => {
+        console.log('SPECIES STATE TRIGGERED')
+        if (this.peopleFiltered$)
+          this.peopleFiltered$ = this.filterPeople('species', value);
+      }
+    );
+    // this.peopleFiltered$ = this.store.select(fromPeople.getSpeciesFilters)
+    //   .pipe(
+    //     concatMap((data) => {
+    //       console.log('SPECIES STATE TRIGGERED')
+    //       return this.people$;
+    //     }
+    // ))
+  }
+
+  private filterPeople(property: string, filterValue: string): Observable<PeopleState> {
+    console.log("FILTERING***", property, filterValue)
+    return this.people$.pipe(
+      map((state: PeopleState) => {
+        console.log(state.results)
+        let filtered = state.results.filter((person: Person) => {
+          return this.matchElement(person[property], filterValue)
+        });
+        console.log('RESULT ', filtered)
+        return {
+          ...state,
+          count: filtered.length,
+          results: filtered,
+        };
+      }
+    ));
   }
 
   private getPeople(): void {
     this.people$ = this.store.select(fromPeople.getPeople).pipe(take(1),
       map((state) => {
-        return {
-          count: state.people.count,
-          results: state.people.results,
-          page: state.people.page,
-          currentPerson: state.people.currentPerson,
-          currentPersonId: state.people.currentPersonId,
-          allLoaded: state.people.allLoaded,
-          totalPages: state.people.totalPages,
-        };
+        return state;
       })
     );
+    this.peopleFiltered$ = this.people$;
   }
 
   byPage(people: Person[]): Person[] {
@@ -88,6 +114,23 @@ export class PeopleListComponent implements OnInit {
   personUrlId(url: string): string {
     return url.slice(url.lastIndexOf('/', url.lastIndexOf('/') - 1) + 1, url.length - 1)
   }
+
+  afilterPeople(people: Person[], filter: any): { count: number, people: Person[] } {
+    console.log("FILTER VALUE IS", filter)
+    let filtered = people.filter((person: Person) => {
+      return this.matchElement(person[filter.filterType], filter.value)
+    });
+    console.log("FILTER RESULT IS", filtered)
+    return { count: filtered.length, people: filtered }
+  };
+
+   matchElement(items: string[], element: string): boolean {
+    console.log(items)
+    console.log(element)
+    console.log(items.indexOf(element))
+    return items.indexOf(element) ? false : true
+  }
+
 
   // reactive onClick handler
   // onClick$ = new Subject<Whatever>();
