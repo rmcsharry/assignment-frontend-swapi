@@ -37,36 +37,13 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit() {
     this.buildForm();
-    this.store.pipe(select(fromInitData.getSpecies))
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(
-        (species: Specie[]) => {
-          this.species = species;
-          this.filteredSpecies$.next(species.slice());
-        }
-    );
+    this.getInitData();
+    this.setupFilterHandling();
     this.speciesFilterCtrl.valueChanges
       .pipe(takeUntil(this.onDestroy))
       .subscribe(() => {
         this.filterSpecies();
       });
-    this.store.pipe(
-      select(fromInitData.getMovies),
-      takeUntil(this.onDestroy))
-      .subscribe(
-        (movies: Movie[]) =>
-          this.movies = movies
-      );
-
-    this.store.pipe(select(fromPeople.getPeopleFilters))
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(
-        (state) => {
-          console.log("NAV BACK", state)
-          this.filterForm.controls['species'].setValue(this.species.find(item => item.url === state.speciesFilter))
-          this.filterForm.controls['movie'].setValue(this.movies.find(item => item.url === state.moviesFilter))
-        }
-      );
   }
 
   ngAfterViewInit() {
@@ -78,6 +55,43 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
     this.onDestroy.complete();
   }
 
+  getInitData() {
+    this.store.pipe(select(fromInitData.getSpecies))
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(
+        (species: Specie[]) => {
+          this.species = species;
+          this.filteredSpecies$.next(species.slice());
+        }
+    );
+    this.store.pipe(
+      select(fromInitData.getMovies),
+      takeUntil(this.onDestroy))
+      .subscribe(
+        (movies: Movie[]) =>
+          this.movies = movies
+      );
+  }
+
+  setupFilterHandling() {
+    // this is needed so that if the user navigates back from person page, the filter controls shows the currently set values
+    this.store.pipe(select(fromPeople.getSpeciesFilter))
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(
+        (state) => {
+          this.filterForm.controls['species'].setValue(this.species.find(item => item.url === state))
+        }
+      );
+    this.store.pipe(select(fromPeople.getMoviesFilter))
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(
+        (state) => {
+          this.filterForm.controls['movie'].setValue(this.movies.find(item => item.url === state))
+        }
+    );
+
+  }
+
   buildForm() {
     this.filterForm = this.fb.group({
       'species': [''],
@@ -87,7 +101,7 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
 
   onSpeciesSelected(data: Specie) {
     if (!data)
-      this.store.dispatch(new FilterActions.SetPeopleSpeciesFilter({ filterValue: '' }));
+      this.store.dispatch(new FilterActions.SetPeopleSpeciesFilter({ filterValue: null }));
     else
       this.store.dispatch(new FilterActions.SetPeopleSpeciesFilter({ filterValue: data.url }));
   }

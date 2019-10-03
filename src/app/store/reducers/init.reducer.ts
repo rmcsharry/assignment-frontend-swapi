@@ -2,8 +2,6 @@ import { InitActions, LOAD_SPECIES_SUCCESS, LOAD_MOVIES_SUCCESS, LOAD_STARSHIPS_
 import { Specie } from 'src/app/models/specie';
 import { Movie } from 'src/app/models/movie';
 import { Starship } from 'src/app/models/starship';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
-import * as fromRoot from '../reducers';
 
 export interface InitState  {
   species: Specie[];

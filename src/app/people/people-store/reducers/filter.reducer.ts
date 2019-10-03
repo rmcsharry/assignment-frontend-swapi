@@ -5,17 +5,9 @@ import {
 } from '../actions/filter.actions';
 import * as fromRoot from '../../../store/reducers';
 
-export const ENUM_FILTERTYPE_SPECIES = 0,
-  ENUM_FILTERTYPE_MOVIE = 1,
-  ENUM_FILTERTYPE_YEAR = 2,
-  ENUMLEN_FILTERTYPE = 3;
-
-export type PeopleFilterType = 'species' | 'films' | 'year';
-
-export interface PeopleFilter {
-  filterType: PeopleFilterType;
-  type: number; // see ENUM_FILTERTYPE
-  value: string;
+export interface FilterType {
+  name: string,
+  value: string
 }
 
 export interface PeopleFilterState {
@@ -29,8 +21,8 @@ export interface State extends fromRoot.State {
 }
 
 const initialState: PeopleFilterState = {
-  speciesFilter: '',
-  moviesFilter: '',
+  speciesFilter: null,
+  moviesFilter: null,
   filtersReset: false
 }
 

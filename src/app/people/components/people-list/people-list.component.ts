@@ -10,7 +10,6 @@ import * as FilterActions from '../../people-store/actions/filter.actions';
 import * as fromPeople from '../../people-store/reducers/index';
 import { Person } from '../../models/person.model';
 import { PeopleState } from '../../people-store/reducers/people.reducer';
-import { PeopleFilterState } from '../../people-store/reducers/filter.reducer';
 
 @Component({
   selector: 'sw-people-list',
@@ -47,30 +46,23 @@ export class PeopleListComponent implements OnInit {
   private handleFiltering() {
     this.store
       .select(fromPeople.getPeopleFilters)
-      .subscribe((state: PeopleFilterState) => {
-        console.log('FILTER STATE TRIGGERED');
+      .subscribe((state) => {
         if (this.peopleFiltered$) {
-          if (state.speciesFilter !== '')
-            this.peopleFiltered$ = this.filterPeople(
-              'species',
-              state.speciesFilter
-            );
-          else this.peopleFiltered$ = this.people$;
-          if (state.moviesFilter !== '')
-            this.peopleFiltered$ = this.filterPeople(
-              'films',
-              state.moviesFilter
-            );
-          else this.peopleFiltered$ = this.people$;
+          this.peopleFiltered$ = this.people$; // always start wtih full set, then filter
+          state.forEach(element => {
+            if (element.value) this.peopleFiltered$ = this.filterPeople(this.peopleFiltered$, element.name, element.value);
+          });
         }
       });
   }
+
   private filterPeople(
+    peopleToFilter$: Observable<PeopleState>,
     property: string,
     filterValue: string
   ): Observable<PeopleState> {
     console.log('FILTERING***', property, filterValue);
-    return this.people$.pipe(
+    return peopleToFilter$.pipe(
       map((state: PeopleState) => {
         console.log(state.results);
         let filtered = state.results.filter((person: Person) => {
@@ -84,6 +76,11 @@ export class PeopleListComponent implements OnInit {
         };
       })
     );
+  }
+
+  matchElement(items: string[], element: string): boolean {
+    console.log('PERSON Items is', items)
+    return items.indexOf(element) > -1 ? true : false;
   }
 
   private getPeople(): void {
@@ -113,10 +110,10 @@ export class PeopleListComponent implements OnInit {
 
   onResetFilters() {
     this.store.dispatch(
-      new FilterActions.SetPeopleSpeciesFilter({ filterValue: '' })
+      new FilterActions.SetPeopleSpeciesFilter({ filterValue: null })
     );
     this.store.dispatch(
-      new FilterActions.SetPeopleMoviesFilter({ filterValue: '' })
+      new FilterActions.SetPeopleMoviesFilter({ filterValue: null })
     );
   }
 
@@ -138,10 +135,6 @@ export class PeopleListComponent implements OnInit {
       url.lastIndexOf('/', url.lastIndexOf('/') - 1) + 1,
       url.length - 1
     );
-  }
-
-  matchElement(items: string[], element: string): boolean {
-    return items.indexOf(element) ? false : true;
   }
 
   // reactive onClick handler
