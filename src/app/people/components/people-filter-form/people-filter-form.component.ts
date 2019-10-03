@@ -8,10 +8,10 @@ import { MatSelect } from '@angular/material';
 import * as fromInitData from '../../../store/reducers';
 import * as fromPeople from '../../people-store/reducers/index';
 import * as fromFilter from '../../people-store/reducers/filter.reducer';
+import * as FilterActions from '../../people-store/actions/filter.actions'
 
 import { Specie } from 'src/app/models/specie';
 import { Movie } from 'src/app/models/movie';
-import { SetPeopleFilter, SetPeopleSpeciesFilter } from '../../people-store/actions/filter.actions';
 
 @Component({
   selector: 'sw-people-filter-form',
@@ -21,7 +21,7 @@ import { SetPeopleFilter, SetPeopleSpeciesFilter } from '../../people-store/acti
 export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('speciesSelect', null) speciesSelect: MatSelect;
   filterForm: FormGroup;
-  movies$: Observable<Movie[]>;
+  movies: Movie[];
   selectedSpecies: string;
   filteredSpecies$: ReplaySubject<Specie[]> = new ReplaySubject<Specie[]>(1);
   speciesFilterCtrl: FormControl = new FormControl();
@@ -50,32 +50,23 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
       .subscribe(() => {
         this.filterSpecies();
       });
-    this.movies$ = this.store.pipe(select(fromInitData.getMovies));
-    this.store.pipe(select(fromPeople.getResetPeopleFilters))
-      .pipe(takeUntil(this.onDestroy))
+    this.store.pipe(
+      select(fromInitData.getMovies),
+      takeUntil(this.onDestroy))
       .subscribe(
-        (result) => {
-          if (result) this.clearFilters();
-        }
-    );
+        (movies: Movie[]) =>
+          this.movies = movies
+      );
+
     this.store.pipe(select(fromPeople.getPeopleFilters))
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
-        (result) => {
-          this.filterForm.controls['species'].setValue(this.species.find(item => item.url === result.speciesFilter))
-          this.filterForm.controls['movie'].setValue(this.movies$
-            .pipe(
-              map((movies: Movie[]) =>
-                movies.find(item => item.url === result.speciesFilter)
-              ))
-          );
+        (state) => {
+          console.log("NAV BACK", state)
+          this.filterForm.controls['species'].setValue(this.species.find(item => item.url === state.speciesFilter))
+          this.filterForm.controls['movie'].setValue(this.movies.find(item => item.url === state.moviesFilter))
         }
       );
-  }
-
-  clearFilters() {
-    // this.filterForm.controls['species'].setValue('');
-    // this.filterForm.controls['movie'].setValue('');
   }
 
   ngAfterViewInit() {
@@ -96,18 +87,16 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
 
   onSpeciesSelected(data: Specie) {
     if (!data)
-      this.store.dispatch(new SetPeopleSpeciesFilter({ filterValue: '' }));
-      // this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'species', type: fromFilter.ENUM_FILTERTYPE_SPECIES, value: '' } }));
+      this.store.dispatch(new FilterActions.SetPeopleSpeciesFilter({ filterValue: '' }));
     else
-      this.store.dispatch(new SetPeopleSpeciesFilter({ filterValue: data.url }));
-      // this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'species', type: fromFilter.ENUM_FILTERTYPE_SPECIES, value: data.url } }));
+      this.store.dispatch(new FilterActions.SetPeopleSpeciesFilter({ filterValue: data.url }));
   }
 
   onMovieSelected(data: Movie) {
     if (!data)
-      this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'films', type: fromFilter.ENUM_FILTERTYPE_MOVIE, value: '' } }));
+      this.store.dispatch(new FilterActions.SetPeopleMoviesFilter({ filterValue: '' }));
     else
-      this.store.dispatch(new SetPeopleFilter({ filter: { filterType: 'films', type: fromFilter.ENUM_FILTERTYPE_MOVIE, value: data.url } }));
+      this.store.dispatch(new FilterActions.SetPeopleMoviesFilter({ filterValue: data.url }));
   }
 
   protected setCompareFunction() {

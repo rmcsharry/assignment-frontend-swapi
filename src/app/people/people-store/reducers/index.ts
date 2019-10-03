@@ -34,9 +34,7 @@ export const getCurrentPersonId = createSelector(getLazyPeople, (state: LazyPeop
 export const getCurrentPersonSwapiId = createSelector(getLazyPeople, fromRoot.selectQueryParam('swapiId'), (_, swapiId) => swapiId);
 export const getIsAllLoaded = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people.allLoaded);
 
-export const getResetPeopleFilters = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.filtersReset);
 export const getPeopleFilters = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters);
-
 export const getSpeciesFilters = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.speciesFilter);
 export const getMoviesFilters = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.moviesFilter);
 
