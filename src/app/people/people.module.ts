@@ -18,6 +18,7 @@ import { LoaderComponent } from '../loader/loader.component';
 import { PeopleFilterFormComponent } from './components/people-filter-form/people-filter-form.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { peopleReducers } from './people-store/reducers/index';
+import { BirthYearFilterComponent } from './components/people-filter-form/birth-year-filter/birth-year-filter.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { peopleReducers } from './people-store/reducers/index';
     PersonComponent,
     LoaderComponent,
     PeopleFilterFormComponent,
+    BirthYearFilterComponent,
   ],
   imports: [
     CommonModule,
