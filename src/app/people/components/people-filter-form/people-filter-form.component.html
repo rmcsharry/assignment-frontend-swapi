@@ -1,21 +1,59 @@
-<form [formGroup]="filterForm" fxLayoutGap="20px">
-  <mat-form-field>
-    <mat-select placeholder="Select a species" formControlName="species" (selectionChange)="onSpeciesSelected($event.value)" #speciesSelect>
-      <mat-option>
-        <ngx-mat-select-search [formControl]="speciesFilterCtrl"></ngx-mat-select-search>
-      </mat-option>
-      <mat-option class="option-none" *ngIf="!speciesFilterCtrl.value">None</mat-option>
-      <mat-option class="option" *ngFor="let specie of filteredSpecies$ | async" [value]="specie">
-        {{ specie.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder="Select a movie" formControlName="movie"  (selectionChange)="onMovieSelected($event.value)">
-      <mat-option class="option-none">None</mat-option>
-      <mat-option class="option" *ngFor="let movie of movies" [value]="movie">
-        {{ movie.title }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<form [formGroup]="filterForm" >
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="30px">
+    <label id="example-radio-group-label">Filter</label>
+    <mat-form-field>
+      <mat-select placeholder="Select a species" formControlName="species" (selectionChange)="onSpeciesSelected($event.value)" #speciesSelect>
+        <mat-option>
+          <ngx-mat-select-search [formControl]="speciesFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option class="option-none" *ngIf="!speciesFilterCtrl.value">None</mat-option>
+        <mat-option class="option" *ngFor="let specie of filteredSpecies$ | async" [value]="specie">
+          {{ specie.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Select a movie" formControlName="movie"  (selectionChange)="onMovieSelected($event.value)">
+        <mat-option class="option-none">None</mat-option>
+        <mat-option class="option" *ngFor="let movie of movies" [value]="movie">
+          {{ movie.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="30px">
+    <label id="sw-radio-group-label">Born</label>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
+      <mat-form-field class="year">
+        <input matInput placeholder="From" value="">
+        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-radio-group name="fromYear" aria-labelledby="sw-radio-group-label" class="sw-radio-group">
+        <mat-radio-button class="sw-radio-button" [value]="fromYear">
+          BBY
+        </mat-radio-button>
+        <mat-radio-button class="sw-radio-button" [value]="fromYear">
+          ABY
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
+      <mat-form-field class="year">
+        <input matInput placeholder="To" value="">
+        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-radio-group name="toYear" aria-labelledby="sw-radio-group-label" class="sw-radio-group">
+        <mat-radio-button class="sw-radio-button" [value]="toYear">
+          BBY
+        </mat-radio-button>
+        <mat-radio-button class="sw-radio-button" [value]="toYear">
+          ABY
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
 </form>

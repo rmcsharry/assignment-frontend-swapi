@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -25,7 +26,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatCardModule
+    MatCardModule,
+    MatRadioModule
   ],
   exports: [
     MatButtonModule,
@@ -38,7 +40,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatCardModule
+    MatCardModule,
+    MatRadioModule
   ],
 })
 export class CustomMaterialModule { }
