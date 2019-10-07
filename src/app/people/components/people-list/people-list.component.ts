@@ -19,7 +19,6 @@ import { yearsPerRow } from '@angular/material';
   styleUrls: ['./people-list.component.scss']
 })
 export class PeopleListComponent implements OnInit {
-  @Input() numberOfPages: number = 1;
   people$: Observable<PeopleState>;
   peopleFiltered$: Observable<PeopleState>;
   page: number = 1;
