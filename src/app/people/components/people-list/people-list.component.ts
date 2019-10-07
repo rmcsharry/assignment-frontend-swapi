@@ -51,7 +51,6 @@ export class PeopleListComponent implements OnInit {
         if (this.peopleFiltered$) {
           this.peopleFiltered$ = this.people$; // always start wtih full set, then filter
           filters.forEach(filter => {
-            console.log(filter, 'HEERRE')
             if (filter.value !== null) this.peopleFiltered$ = this.filterPeople(this.peopleFiltered$, filter);
           });
         }
@@ -59,12 +58,10 @@ export class PeopleListComponent implements OnInit {
   }
 
   private filterPeople(peopleToFilter$: Observable<PeopleState>, filter: FilterType): Observable<PeopleState> {
-    console.log('FILTERING***', filter.name, filter.value);
     return peopleToFilter$.pipe(
       map((state: PeopleState) => {
         console.log(state.results);
         let filtered = this.processFilter(state.results, filter);
-        console.log('RESULT ', filtered);
         return {
           ...state,
           count: filtered.length,
@@ -79,14 +76,10 @@ export class PeopleListComponent implements OnInit {
     switch (filter.name) {
       case 'bornFrom':
         return people.filter((person: Person) => {
-          console.log('from', person, filter.value)
-          console.log(this.convertSWYear(person.birth_year) >= filter.value, 'FROM CONVERT')
           return this.convertSWYear(person.birth_year) >= filter.value;
         });
       case 'bornTo':
         return people.filter((person: Person) => {
-          console.log('to', person)
-          console.log(this.convertSWYear(person.birth_year), 'TO CONVERT')
           return this.convertSWYear(person.birth_year) <= filter.value;
         });
       default:
@@ -105,7 +98,6 @@ export class PeopleListComponent implements OnInit {
   }
 
   matchElement(items: string[], element: string): boolean {
-    console.log('PERSON Items is', items)
     return items.indexOf(element) > -1 ? true : false;
   }
 
