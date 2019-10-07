@@ -33,8 +33,8 @@ export class PeopleEffects {
     ofType<LoadPageOfPeople>(LOAD_PAGE_OF_PEOPLE),
     mergeMap((data) => this.peopleService.getPeople(data.payload.page).pipe(
       map(apiData => {
-        // if (!apiData.next) {
-          if (data.payload.page === 2) {
+        if (!apiData.next) {
+          // if (data.payload.page === 2) {
           // no more pages, so we can now activate
           this.store.dispatch(new LoadAllPeopleSuccess({ totalPages: data.payload.page }));
         }
