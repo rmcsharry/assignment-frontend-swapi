@@ -1,35 +1,39 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="30px">
-  <label id="sw-radio-group-label">Born</label>
-  <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
-    <mat-form-field class="year">
-      <input matInput placeholder="From" value="">
-      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-radio-group name="fromYear" aria-labelledby="sw-radio-group-label" class="sw-radio-group">
-      <mat-radio-button class="sw-radio-button" [value]="fromYear">
-        BBY
-      </mat-radio-button>
-      <mat-radio-button class="sw-radio-button" [value]="fromYear">
-        ABY
-      </mat-radio-button>
-    </mat-radio-group>
+<ng-container [formGroup]="yearFiltersForm">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="30px">
+    <label id="sw-radio-group-label">Born</label>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
+      <mat-form-field class="year">
+        <input matInput placeholder="From" formControlName="bornFrom" (change)="onBornFromChange($event.target.value)" type="number" min="0">
+        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-radio-group name="born-from" formControlName="fromBY" (change)="onFromBYChange($event.value)"
+          aria-labelledby="sw-radio-group-label" class="sw-radio-group">
+        <mat-radio-button class="sw-radio-button" [value]="0" checked>
+          BBY
+        </mat-radio-button>
+        <mat-radio-button class="sw-radio-button" [value]="1">
+          ABY
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
+      <mat-form-field class="year">
+        <input matInput placeholder="To" formControlName="bornTo" (change)="onBornToChange($event.target.value)" type="number" min="0">
+        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-radio-group name="born-to" formControlName="toBY" (change)="onToBYChange($event.value)"
+          aria-labelledby="sw-radio-group-label" class="sw-radio-group">
+        <mat-radio-button class="sw-radio-button" [value]="0">
+          BBY
+        </mat-radio-button>
+        <mat-radio-button class="sw-radio-button" [value]="1" checked>
+          ABY
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
-    <mat-form-field class="year">
-      <input matInput placeholder="To" value="">
-      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-radio-group name="toYear" aria-labelledby="sw-radio-group-label" class="sw-radio-group">
-      <mat-radio-button class="sw-radio-button" [value]="toYear">
-        BBY
-      </mat-radio-button>
-      <mat-radio-button class="sw-radio-button" [value]="toYear">
-        ABY
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-</div>
+</ng-container>

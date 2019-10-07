@@ -37,10 +37,14 @@ export const getIsAllLoaded = createSelector(getLazyPeople, (state: LazyPeopleSt
 export const getPeopleFilters = createSelector(getLazyPeople, (state: LazyPeopleState): Array<fromFilter.FilterType> => {
   return [
     { name: 'species', value: state.filters.speciesFilter },
-    { name: 'films', value: state.filters.moviesFilter }
+    { name: 'films', value: state.filters.moviesFilter },
+    { name: 'bornFrom', value: state.filters.bornFromFilter },
+    { name: 'bornTo', value: state.filters.bornToFilter }
   ]
 });
 export const getSpeciesFilter = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.speciesFilter);
 export const getMoviesFilter = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.moviesFilter);
+export const getBornFromFilter = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.bornFromFilter);
+export const getBornToFilter = createSelector(getLazyPeople, (state: LazyPeopleState) => state.filters.bornToFilter);
 
 export const getPeople = createSelector(getLazyPeople, (state: LazyPeopleState) => state.people);

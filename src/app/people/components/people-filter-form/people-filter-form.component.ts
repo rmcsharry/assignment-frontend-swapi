@@ -7,7 +7,6 @@ import { MatSelect } from '@angular/material';
 
 import * as fromInitData from '../../../store/reducers';
 import * as fromPeople from '../../people-store/reducers/index';
-import * as fromFilter from '../../people-store/reducers/filter.reducer';
 import * as FilterActions from '../../people-store/actions/filter.actions'
 
 import { Specie } from 'src/app/models/specie';
@@ -26,14 +25,19 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
   filteredSpecies$: ReplaySubject<Specie[]> = new ReplaySubject<Specie[]>(1);
   speciesFilterCtrl: FormControl = new FormControl();
   species: Specie[];
-  speciesCtrl: FormControl = new FormControl();
 
   protected onDestroy = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private store: Store<fromInitData.State>
-  ) { }
+  ) {
+    this.filterForm = new FormGroup({
+      species: new FormControl(""),
+      movie: new FormControl(""),
+      yearFilters: new FormControl(""),
+    });
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -93,10 +97,11 @@ export class PeopleFilterFormComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   buildForm() {
-    this.filterForm = this.fb.group({
-      'species': [''],
-      'movie': ['']
-    })
+    // this.filterForm = this.fb.group({
+    //   'species': [''],
+    //   'movie': [''],
+    //   'yearFilters': new FormControl("")
+    // })
   }
 
   onSpeciesSelected(data: Specie) {

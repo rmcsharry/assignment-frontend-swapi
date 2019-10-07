@@ -1,10 +1,10 @@
 .list-items-container {
-  min-height: 666px;
+  min-height: 500px;
   padding: 20px 40px 0px;
 }
 mat-nav-list {
   width: 100%;
-  min-height: 500px;
+  min-height: 400px;
   > a {
     width: 100%;
     border-top: solid 1px transparent;
@@ -16,4 +16,7 @@ h5 {
 }
 .no-data {
   height: 70px;
+}
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+  height: 36px;
 }

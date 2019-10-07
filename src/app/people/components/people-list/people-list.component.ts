@@ -10,6 +10,8 @@ import * as FilterActions from '../../people-store/actions/filter.actions';
 import * as fromPeople from '../../people-store/reducers/index';
 import { Person } from '../../models/person.model';
 import { PeopleState } from '../../people-store/reducers/people.reducer';
+import { FilterType } from '../../people-store/reducers/filter.reducer';
+import { yearsPerRow } from '@angular/material';
 
 @Component({
   selector: 'sw-people-list',
@@ -46,28 +48,23 @@ export class PeopleListComponent implements OnInit {
   private handleFiltering() {
     this.store
       .select(fromPeople.getPeopleFilters)
-      .subscribe((state) => {
+      .subscribe((filters) => {
         if (this.peopleFiltered$) {
           this.peopleFiltered$ = this.people$; // always start wtih full set, then filter
-          state.forEach(element => {
-            if (element.value) this.peopleFiltered$ = this.filterPeople(this.peopleFiltered$, element.name, element.value);
+          filters.forEach(filter => {
+            console.log(filter, 'HEERRE')
+            if (filter.value !== null) this.peopleFiltered$ = this.filterPeople(this.peopleFiltered$, filter);
           });
         }
       });
   }
 
-  private filterPeople(
-    peopleToFilter$: Observable<PeopleState>,
-    property: string,
-    filterValue: string
-  ): Observable<PeopleState> {
-    console.log('FILTERING***', property, filterValue);
+  private filterPeople(peopleToFilter$: Observable<PeopleState>, filter: FilterType): Observable<PeopleState> {
+    console.log('FILTERING***', filter.name, filter.value);
     return peopleToFilter$.pipe(
       map((state: PeopleState) => {
         console.log(state.results);
-        let filtered = state.results.filter((person: Person) => {
-          return this.matchElement(person[property], filterValue);
-        });
+        let filtered = this.processFilter(state.results, filter);
         console.log('RESULT ', filtered);
         return {
           ...state,
@@ -76,6 +73,36 @@ export class PeopleListComponent implements OnInit {
         };
       })
     );
+  }
+
+  processFilter(people: Person[], filter: FilterType): Person[] {
+    if (!filter.value) return people;
+    switch (filter.name) {
+      case 'bornFrom':
+        return people.filter((person: Person) => {
+          console.log('from', person, filter.value)
+          console.log(this.convertSWYear(person.birth_year) >= filter.value, 'FROM CONVERT')
+          return this.convertSWYear(person.birth_year) >= filter.value;
+        });
+      case 'bornTo':
+        return people.filter((person: Person) => {
+          console.log('to', person)
+          console.log(this.convertSWYear(person.birth_year), 'TO CONVERT')
+          return this.convertSWYear(person.birth_year) <= filter.value;
+        });
+      default:
+        return people.filter((person: Person) => {
+          return this.matchElement(person[filter.name], filter.value as string);
+        });
+    };
+  }
+
+  convertSWYear(birth_year: string): number {
+    let year = birth_year.length - 3;
+    let factor = 1;
+    if (birth_year.substr(year, 3) === 'BBY')
+      factor = - 1;
+    return parseInt(birth_year.substring(0, year)) * factor;
   }
 
   matchElement(items: string[], element: string): boolean {
@@ -114,6 +141,12 @@ export class PeopleListComponent implements OnInit {
     );
     this.store.dispatch(
       new FilterActions.SetPeopleMoviesFilter({ filterValue: null })
+    );
+    this.store.dispatch(
+      new FilterActions.SetPeopleBornFromFilter({ filterValue: null })
+    );
+    this.store.dispatch(
+      new FilterActions.SetPeopleBornToFilter({ filterValue: null })
     );
   }
 
