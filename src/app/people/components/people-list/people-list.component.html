@@ -36,7 +36,7 @@
     matSuffix aria-label="Next page" (click)="onPrevPage()">
     <mat-icon>arrow_left</mat-icon>Prev
   </button>
-  <button mat-raised-button color="accent" [disabled]="(peopleFiltered$ | async)?.results.length <= pageSize || page === (peopleFiltered$ | async)?.totalPages"
+  <button mat-raised-button color="accent" [disabled]="page === (peopleFiltered$ | async)?.totalPages"
     matSuffix aria-label="Next page" (click)="onNextPage()">
     Next<mat-icon>arrow_right</mat-icon>
   </button>

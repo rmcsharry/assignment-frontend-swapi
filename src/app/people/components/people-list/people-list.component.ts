@@ -60,12 +60,13 @@ export class PeopleListComponent implements OnInit {
   private filterPeople(peopleToFilter$: Observable<PeopleState>, filter: FilterType): Observable<PeopleState> {
     return peopleToFilter$.pipe(
       map((state: PeopleState) => {
-        console.log(state.results);
         let filtered = this.processFilter(state.results, filter);
+        this.page = 1;
         return {
           ...state,
           count: filtered.length,
-          results: filtered
+          results: filtered,
+          totalPages: Math.ceil(filtered.length / this.pageSize)
         };
       })
     );
@@ -75,25 +76,18 @@ export class PeopleListComponent implements OnInit {
     if (!filter.value) return people;
     switch (filter.name) {
       case 'bornFrom':
-        return people.filter((person: Person) => {
-          return this.convertSWYear(person.birth_year) >= filter.value;
-        });
+        return people.filter((person: Person) => this.convertSWYear(person.birth_year) >= filter.value);
       case 'bornTo':
-        return people.filter((person: Person) => {
-          return this.convertSWYear(person.birth_year) <= filter.value;
-        });
+        return people.filter((person: Person) => this.convertSWYear(person.birth_year) <= filter.value);
       default:
-        return people.filter((person: Person) => {
-          return this.matchElement(person[filter.name], filter.value as string);
-        });
+        return people.filter((person: Person) => this.matchElement(person[filter.name], filter.value as string));
     };
   }
 
   convertSWYear(birth_year: string): number {
     let year = birth_year.length - 3;
     let factor = 1;
-    if (birth_year.substr(year, 3) === 'BBY')
-      factor = - 1;
+    if (birth_year.substr(year, 3) === 'BBY') factor = - 1;
     return parseInt(birth_year.substring(0, year)) * factor;
   }
 

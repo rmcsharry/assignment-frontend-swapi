@@ -60,14 +60,6 @@ export function peopleReducer(state = initialState, action: PeopleActions) {
 
 // export const peopleFeatureKey = 'people';
 
-// function findPerson(state: PeopleState, index: number): Person | null {
-//   if (state.results.length === 0) {
-//     console.warn('NO DATA but tried to set person ', index);
-//     return null;
-//   } else
-//     return state.results[index - 1];
-// }
-
 function findPerson(state: PeopleState, swapiId: string): Person | null {
   if (state.results.length === 0) {
     console.warn('NO DATA but tried to set person ', swapiId);
