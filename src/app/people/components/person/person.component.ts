@@ -16,6 +16,7 @@ import * as fromInitData from '../../../store/reducers';
 export class PersonComponent implements OnInit {
   person$: Observable<Person>;
   isInitLoadComplete$: Observable<boolean> = of(false);
+  swapiId: string;
 
   constructor(
     private pageService: PageService,
@@ -29,7 +30,18 @@ export class PersonComponent implements OnInit {
       this.pageService.setPageTitle(`Character ${index}`);
     });
     this.person$ = this.store.pipe(select(fromPeople.getCurrentPerson));
+    this.store.pipe(select(fromPeople.getCurrentPersonSwapiId)).subscribe(
+      (data) => this.swapiId = data
+    );
     this.isInitLoadComplete$ = this.store.pipe(select(fromInitData.getIsInitLoadComplete));
+  }
+
+  getCharImageClass() {
+    return this.swapiId;
+  }
+
+  isCharImageAvailable(): boolean {
+    return ['1','2','3','4','5','10','13','14','20','21','22','84','85','87'].includes(this.swapiId);
   }
 
   getSpecies(url: string): Observable<any> {

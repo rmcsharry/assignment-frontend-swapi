@@ -1,15 +1,22 @@
 <div *ngIf="person$ | async as person">
   <mat-card class="character-card">
     <mat-card-header>
-      <img mat-card-avatar src="https://robohash.org/{{person.name}}.png">
+      <!-- <img mat-card-avatar src="https://robohash.org/{{person.name}}.png"> -->
       <mat-card-title>{{person.name}}</mat-card-title>
       <mat-card-subtitle>Born: <span class="data-text">{{person.birth_year}}</span>
       </mat-card-subtitle>
     </mat-card-header>
 
     <section *ngIf="isInitLoadComplete$ | async; else loading">
-      <img mat-card-image src="https://robohash.org/{{person.name}}.png" alt="Photo of a Star Wars character">
-
+      <ng-container *ngIf="isCharImageAvailable(); else randomImage">
+        <div class="char-image">
+          <div [className]="'char-' + getCharImageClass()" alt="Background image of actual character">
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #randomImage>
+        <img mat-card-image src="https://robohash.org/{{person.name}}.png" alt="Random image for character">
+      </ng-template>
       <mat-card-subtitle class="sw-subtitle">
         Species:
       </mat-card-subtitle>

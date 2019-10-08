@@ -103,11 +103,9 @@ export class BirthYearFilterComponent implements OnInit, ControlValueAccessor, O
     val && this.yearFiltersForm.setValue(val, { emitEvent: false });
   }
   registerOnChange(fn: any): void {
-    console.log("on change");
     this.yearFiltersForm.valueChanges.subscribe(fn);
   }
   registerOnTouched(fn: any): void {
-    console.log("on blur");
     this.onTouched = fn;
   }
   setDisabledState?(isDisabled: boolean): void {

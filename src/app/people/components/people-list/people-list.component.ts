@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -11,7 +11,6 @@ import * as fromPeople from '../../people-store/reducers/index';
 import { Person } from '../../models/person.model';
 import { PeopleState } from '../../people-store/reducers/people.reducer';
 import { FilterType } from '../../people-store/reducers/filter.reducer';
-import { yearsPerRow } from '@angular/material';
 
 @Component({
   selector: 'sw-people-list',
