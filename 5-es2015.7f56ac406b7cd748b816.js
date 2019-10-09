@@ -1,1 +1,1 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{N3Et:function(module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.r(__webpack_exports__),__webpack_require__.d(__webpack_exports__,"PeopleModule",function(){return PeopleModule});class PeopleModule{}}}]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{N3Et:function(n,o,e){"use strict";e.r(o),e.d(o,"PeopleModule",function(){return s});class s{}}}]);
