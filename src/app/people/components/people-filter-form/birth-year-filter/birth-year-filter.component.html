@@ -3,10 +3,7 @@
     <label id="sw-radio-group-label">Born</label>
     <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
       <mat-form-field class="year">
-        <input matInput placeholder="From" formControlName="bornFrom" (change)="onBornFromChange($event.target.value)" type="number" min="0">
-        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-          <mat-icon>close</mat-icon>
-        </button>
+        <input #year matInput placeholder="From" formControlName="bornFrom" (change)="onBornFromChange($event.target.value)" type="number" min="0">
       </mat-form-field>
       <mat-radio-group name="born-from" formControlName="fromBY" (change)="onFromBYChange($event.value)"
           aria-labelledby="sw-radio-group-label" class="sw-radio-group">
@@ -21,9 +18,6 @@
     <div fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
       <mat-form-field class="year">
         <input matInput placeholder="To" formControlName="bornTo" (change)="onBornToChange($event.target.value)" type="number" min="0">
-        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-          <mat-icon>close</mat-icon>
-        </button>
       </mat-form-field>
       <mat-radio-group name="born-to" formControlName="toBY" (change)="onToBYChange($event.value)"
           aria-labelledby="sw-radio-group-label" class="sw-radio-group">
