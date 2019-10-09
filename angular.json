@@ -31,7 +31,8 @@
               "src/dark-theme.scss",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "deleteOutputPath": true
           },
           "configurations": {
             "production": {

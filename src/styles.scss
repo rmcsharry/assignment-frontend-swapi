@@ -8,7 +8,9 @@
   src: url(assets/fonts/Starjedi.ttf) format("truetype");
 }
 $sw-color: #FFE81F;
-
+label {
+  width: 80px;
+}
 body {
   color: $sw-color;
   background: black;
@@ -20,33 +22,6 @@ input#mat-input-1 {
 }
 .intro {
   overflow: hidden;
-}
-.page-controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 0;
-}
-.list-controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
-}
-.list-items-container {
-  border: solid 1px darkgoldenrod;
-  background: hsla(20, 20%, 40%, 0.5);
-}
-.list-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: left;
-}
-.list-footer {
-  padding-top: 20px;
 }
 .strike {
   text-decoration: line-through

@@ -1,16 +1,15 @@
-#lucasarts {
-  position: absolute;
-  left: 50px;
-}
-#logo {
-  position: absolute;
-  right: 60px;
-}
 h2 {
   margin-bottom: 2rem;
   font-family: 'Pathway Gothic One', sans-serif;
+  padding-top: 10px;
 }
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 2rem;
+  padding-left: 1rem;
+  padding-top: 10px;
+}
+.page-title {
+  width: 300px;
+  margin: auto;
 }

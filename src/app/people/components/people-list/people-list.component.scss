@@ -1,6 +1,10 @@
 .list-items-container {
   min-height: 500px;
   padding: 20px 40px 0px;
+  border: solid 1px darkgoldenrod;
+  background: hsla(20, 20%, 40%, 0.5);
+  max-width: 500px;
+  margin: auto;
 }
 mat-nav-list {
   width: 100%;
@@ -10,6 +14,9 @@ mat-nav-list {
     border-top: solid 1px transparent;
     border-bottom: solid 1px transparent;
   }
+}
+.page-controls {
+  margin-top: 1rem;
 }
 h5 {
   color: #82773e;

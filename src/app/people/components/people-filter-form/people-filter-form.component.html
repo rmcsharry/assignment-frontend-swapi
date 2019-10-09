@@ -1,7 +1,8 @@
-<form [formGroup]="filterForm" >
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="30px">
+<form id="filterForm" [formGroup]="filterForm" >
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
     <label id="example-radio-group-label">Filter</label>
-    <mat-form-field>
+    <div fxFlex="100" fxFlex.sm="50" fxLayout="row" fxLayoutGap.gt-xs="30px" fxLayout.xs="column">
+    <mat-form-field fxFlex="50">
       <mat-select placeholder="Select a species" formControlName="species" (selectionChange)="onSpeciesSelected($event.value)" #speciesSelect>
         <mat-option>
           <ngx-mat-select-search [formControl]="speciesFilterCtrl"></ngx-mat-select-search>
@@ -12,7 +13,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field fxFlex="50">
       <mat-select placeholder="Select a movie" formControlName="movie"  (selectionChange)="onMovieSelected($event.value)">
         <mat-option class="option-none">None</mat-option>
         <mat-option class="option" *ngFor="let movie of movies" [value]="movie">
@@ -20,6 +21,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    </div>
   </div>
   <sw-birth-year-filter formControlName="yearFilters"></sw-birth-year-filter>
 </form>

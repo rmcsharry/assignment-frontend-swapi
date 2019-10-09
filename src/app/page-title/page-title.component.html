@@ -1,15 +1,15 @@
-<div>
-  <a routerLink="home" id="lucasarts">
-    <h1>{{'{'}}</h1>
-  </a>
-  <a routerLink="home" id="logo">
-    <h1>@</h1>
-  </a>
-  <h2 *ngIf="pageTitle.includes('Patience'); else otherTitle">
-    {{pageTitle}}
-  </h2>
-  <ng-template #otherTitle>
-    <h3>{{pageTitle}}</h3>
-  </ng-template>
+<div class="page-title">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+    <a routerLink="home" id="logo" fxFlex="20">
+      <h1>@</h1>
+    </a>
+    <div fxFlex="80">
+      <h2 *ngIf="pageTitle.includes('Patience'); else otherTitle">
+        {{pageTitle}}
+      </h2>
+      <ng-template #otherTitle>
+        <h3>{{pageTitle}}</h3>
+      </ng-template>
+    </div>
+  </div>
 </div>
-

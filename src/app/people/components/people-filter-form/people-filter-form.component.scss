@@ -1,3 +1,10 @@
+#filterForm {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 1rem;
+}
 .option-none {
   color: orange;
 }
@@ -7,4 +14,7 @@
 .option.mat-option.mat-selected:not(.mat-option-multiple) {
   background: #37105a !important;
   color: #d8aeff;
+}
+label {
+  max-width: 120px;
 }

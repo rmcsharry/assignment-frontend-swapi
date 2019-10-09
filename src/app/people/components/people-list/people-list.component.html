@@ -1,9 +1,7 @@
-
-<section class="list-controls">
+<section>
   <sw-people-filter-form></sw-people-filter-form>
 </section>
-
-<section class="list-items-container" fxLayout="column" fxLayoutAlign="space-start center">
+<section class="list-items-container" fxLayout="column" fxLayoutAlign="center center">
   <ng-container *ngIf="(peopleFiltered$ | async)?.results?.length > 0; else noResults">
     <p fxFlexAlign="start">{{(peopleFiltered$ | async).count}} characters</p>
     <mat-nav-list *ngIf="(peopleFiltered$ | async)?.results as people">
@@ -12,7 +10,17 @@
         {{personNumber(i)}} - {{person.name}}
       </a>
     </mat-nav-list>
-    <p class="list-footer" fxFlexAlign="end">Page {{page}}</p>
+    <section class="page-controls" fxLayoutGap="10px" fxFlexAlign="start">
+      <button mat-raised-button color="accent" [disabled]="page === 1"
+        matSuffix aria-label="Next page" (click)="onPrevPage()">
+        <mat-icon>arrow_left</mat-icon>Prev
+      </button>
+      <button mat-raised-button color="accent" [disabled]="page === (peopleFiltered$ | async)?.totalPages"
+        matSuffix aria-label="Next page" (click)="onNextPage()">
+        Next<mat-icon>arrow_right</mat-icon>
+      </button>
+    </section>
+    <p fxFlexAlign="end">Page {{page}}</p>
   </ng-container>
   <ng-template #noResults>
     <ng-container *ngIf="isAllLoaded">
@@ -31,14 +39,5 @@
   </ng-template>
 </section>
 
-<section class="page-controls" fxLayoutGap="10px">
-  <button mat-raised-button color="accent" [disabled]="page === 1"
-    matSuffix aria-label="Next page" (click)="onPrevPage()">
-    <mat-icon>arrow_left</mat-icon>Prev
-  </button>
-  <button mat-raised-button color="accent" [disabled]="page === (peopleFiltered$ | async)?.totalPages"
-    matSuffix aria-label="Next page" (click)="onNextPage()">
-    Next<mat-icon>arrow_right</mat-icon>
-  </button>
-</section>
+
 <!-- <pre>{{(people$ | async) | json}}</pre> -->
